@@ -9,8 +9,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-import java.util.Optional;
+
+import java.util.*;
+import java.util.stream.Collectors;
 
 import static com.example.personalizedLearningPlatform.dto.mapper.Mapper.*;
 
@@ -27,21 +28,55 @@ public class UniversityController {
         List<UniversityEntity> universities = universityService.getAllUniversities();
         return new ResponseEntity<>(universities, HttpStatus.OK);
     }
+    @GetMapping("/universities")
+    public ResponseEntity<List<UniversityDto>> getUniversities(
+            @RequestParam(required = false, name = "name") String name,
+            @RequestParam(required = false, name = "location") String location,
+            @RequestParam(required = false, name = "website") String website,
+            @RequestParam(required = false, name = "rank") Integer rank,
+            @RequestParam(required = false, name = "admissionRequirements") String admissionRequirements
+    ) {
+        Map<String, Object> map = new HashMap<>();
+        map.put("name", name);
+        map.put("location", location);
+        map.put("website", website);
+        map.put("rank", rank);
+        map.put("admission_requirements", admissionRequirements);
+
+        map.values().removeAll(Collections.singleton(null));
+
+        List<UniversityEntity> universities = universityService.getUniversitiesAllParams(map);
+
+        List<UniversityDto> universityDtos = universities.stream()
+                .map(university -> mapper(university))
+                .collect(Collectors.toList());
+
+        return ResponseEntity.ok(universityDtos);
+    }
 
     @GetMapping("/{id}")
-    public ResponseEntity<UniversityEntity> getUniversityById(@PathVariable int id) {
+    public ResponseEntity<UniversityEntity> getUniversityById(@PathVariable  Integer id) {
         Optional<UniversityEntity> university = universityService.getUniversityById(id);
         return university.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
     }
 
     @PostMapping("/add")
-    public ResponseEntity<UniversityDto> createUniversity(@RequestBody UniversityEntity universityEntity) {
+    public ResponseEntity<?> createUniversity(@RequestBody UniversityEntity universityEntity) {
         UniversityEntity savedUniversity = universityService.save(universityEntity);
         return new ResponseEntity<>(mapper(savedUniversity), HttpStatus.CREATED);
     }
 
+    @PostMapping("/addMore")
+    public ResponseEntity<List<UniversityEntity>> addUniversities(@RequestBody List<UniversityEntity> universities) {
+        List<UniversityEntity> savedUniversities = universities.stream()
+                .map(university -> universityService.save(university))
+                .collect(Collectors.toList());
+
+        return ResponseEntity.status(HttpStatus.CREATED).body(savedUniversities);
+    }
+
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteUniversity(@PathVariable int id) {
+    public ResponseEntity<Void> deleteUniversity(@PathVariable Integer id) {
         universityService.deleteUniversity(id);
         return ResponseEntity.noContent().build();
     }

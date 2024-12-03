@@ -15,10 +15,10 @@ public class Mapper {
 
         return UserDto.builder()
                 .id(userEntity.getId())
-                .first_name(userEntity.getFirst_name())
-                .last_name(userEntity.getLast_name())
+                .first_name(userEntity.getFirstName())
+                .last_name(userEntity.getLastName())
                 .email(userEntity.getEmail())
-                .hashed_password(userEntity.getHashed_password())
+                .hashed_password(userEntity.getHashedPassword())
                 .build();
 
     }
@@ -33,7 +33,7 @@ public class Mapper {
                 .location(universityEntity.getLocation())
                 .website(universityEntity.getWebsite())
                 .rank(universityEntity.getRank())
-                .admission_requirements(universityEntity.getAdmission_requirements())
+                .admission_requirements(universityEntity.getAdmissionRequirements())
                 .build();
     }
 
@@ -44,7 +44,7 @@ public class Mapper {
         return CategoryDto.builder()
                 .id(categoryEntity.getId())
                 .name(categoryEntity.getName())
-                .user_id(categoryEntity.getUser_id())
+                .user_id(categoryEntity.getUserId())
                 .build();
     }
 }

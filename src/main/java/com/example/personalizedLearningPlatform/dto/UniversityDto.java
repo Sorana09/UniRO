@@ -19,5 +19,5 @@ public class UniversityDto {
     private String website;
     private Integer rank;
     private String admission_requirements;
-    private List<String> domains;
+
 }

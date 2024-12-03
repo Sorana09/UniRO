@@ -39,7 +39,7 @@ public class UserController {
     @GetMapping
     public ResponseEntity<List<UserDto>> getAllUsers() {
         List<UserEntity> users = userService.findAll();
-
+        System.out.println(users.get(0));
         List<UserDto> userDtos = users.stream()
                 .map(it -> mapper(it))
                 .collect(Collectors.toList());
@@ -51,19 +51,19 @@ public class UserController {
     @PostMapping("/signup")
     public ResponseEntity<String> signup(@RequestBody UserEntity user) {
         UserEntity savedUser = userService.save(user);
-        return ResponseEntity.status(201).body("User created successfully with ID " + savedUser.getId());
+        return ResponseEntity.ok().body("User created successfully with ID " + savedUser.getId());
     }
 
-    @PutMapping("/resetPass/{email}")
-    public ResponseEntity<String> resetPassword(@PathVariable String email,
-                                                @RequestBody ChangePasswordRequest changePasswordRequest) {
-        try {
-            userService.changePassword(email, changePasswordRequest.getPassword());
-            return ResponseEntity.ok("Password changed successfully.");
-        } catch (EntityNotFoundException e) {
-            return ResponseEntity.status(404).body("User with email " + email + " not found.");
-        }
-    }
+//    @PutMapping("/resetPass/{email}")
+//    public ResponseEntity<String> resetPassword(@PathVariable String email,
+//                                                @RequestBody ChangePasswordRequest changePasswordRequest) {
+//        try {
+//            userService.changePassword(email, changePasswordRequest.getPassword());
+//            return ResponseEntity.ok("Password changed successfully.");
+//        } catch (EntityNotFoundException e) {
+//            return ResponseEntity.status(404).body("User with email " + email + " not found.");
+//        }
+//    }
 
     @PutMapping("/{id}")
     public ResponseEntity<UserDto> updateUser(@PathVariable Long id, @RequestBody UserEntity user) {

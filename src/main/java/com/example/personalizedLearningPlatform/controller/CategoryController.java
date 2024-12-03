@@ -3,6 +3,7 @@ package com.example.personalizedLearningPlatform.controller;
 import com.example.personalizedLearningPlatform.entity.CategoryEntity;
 import com.example.personalizedLearningPlatform.service.CategoryService;
 import lombok.AllArgsConstructor;
+import org.springframework.data.relational.core.sql.In;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

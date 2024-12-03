@@ -13,11 +13,11 @@ public class UserMapper implements RowMapper<UserEntity> {
     public UserEntity mapRow(ResultSet rs, int rowNum) throws SQLException {
         UserEntity userEntity = new UserEntity();
 
-        userEntity.setId(rs.getInt("id"));
+        userEntity.setId(rs.getLong("id"));
         userEntity.setEmail(rs.getString("email"));
-        userEntity.setFirst_name(rs.getString("first_name"));
-        userEntity.setLast_name(rs.getString("last_name"));
-        userEntity.setHashed_password(rs.getString("hashed_password"));
+        userEntity.setFirstName(rs.getString("first_name"));
+        userEntity.setLastName(rs.getString("last_name"));
+        userEntity.setHashedPassword(rs.getString("hashed_password"));
 
         return userEntity;
     }

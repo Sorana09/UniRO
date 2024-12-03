@@ -20,7 +20,7 @@ public class UniversityMapper implements RowMapper<UniversityEntity> {
                 .location(rs.getString("location"))
                 .website(rs.getString("website"))
                 .rank(rs.getInt("rank"))
-                .admission_requirements(rs.getString("admission_requirements"))
+                .admissionRequirements(rs.getString("admission_requirements"))
                 .build();
     }
 
