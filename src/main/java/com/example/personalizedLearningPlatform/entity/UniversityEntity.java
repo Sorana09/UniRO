@@ -7,6 +7,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.data.relational.core.sql.In;
 
+import java.util.List;
+
 
 @Data
 @Builder
@@ -19,6 +21,7 @@ public class UniversityEntity {
     private String location;
     private String website;
     private Integer rank;
+    private List<CategoryEntity> categoryEntities;
     private String admissionRequirements;
 
 

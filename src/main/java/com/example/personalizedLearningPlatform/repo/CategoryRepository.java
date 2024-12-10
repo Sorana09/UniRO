@@ -23,10 +23,10 @@ public class CategoryRepository {
 
     public CategoryEntity save(CategoryEntity category) {
         jdbcTemplate.update(
-                "INSERT INTO category_entity (id, name, user_id) VALUES (?, ?, ?)",
+                "INSERT INTO category_entity (id, name, university_id) VALUES (?, ?, ?)",
                 category.getId(),
                 category.getName(),
-                category.getUserId()
+                category.getUniversityId()
         );
         return category;
     }
@@ -44,11 +44,11 @@ public class CategoryRepository {
         return jdbcTemplate.query("SELECT * FROM category_entity", categoryMapper);
     }
 
-    public List<CategoryEntity> findByUserId(Integer userId) {
+    public List<CategoryEntity> findByUniversityId(Integer universityId) {
         return jdbcTemplate.query(
-                "SELECT * FROM category_entity WHERE user_id = ?",
+                "SELECT * FROM category_entity WHERE university_id = ?",
                 categoryMapper,
-                userId
+                universityId
         );
     }
 

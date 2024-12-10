@@ -1,10 +1,10 @@
 package com.example.personalizedLearningPlatform.dto;
 
+import com.example.personalizedLearningPlatform.dto.enums.AdmmisionRequirementsDto;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.stereotype.Component;
 
 import java.util.List;
 
@@ -18,6 +18,7 @@ public class UniversityDto {
     private String location;
     private String website;
     private Integer rank;
-    private String admission_requirements;
+    private List<CategoryDto> categories;
+    private AdmmisionRequirementsDto admissionRequirements;
 
 }

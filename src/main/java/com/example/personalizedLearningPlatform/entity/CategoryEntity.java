@@ -16,5 +16,5 @@ public class CategoryEntity {
 
     private Integer id;
     private String name;
-    private Integer userId;
+    private Integer universityId;
 }

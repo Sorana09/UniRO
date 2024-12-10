@@ -13,5 +13,5 @@ import org.springframework.stereotype.Component;
 public class CategoryDto {
     private Integer id;
     private String name;
-    private Integer user_id;
+    private Integer universityId;
 }

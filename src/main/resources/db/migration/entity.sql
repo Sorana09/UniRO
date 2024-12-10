@@ -22,6 +22,6 @@ CREATE TABLE university_entity (
 CREATE TABLE category_entity (
                                  id SERIAL PRIMARY KEY,
                                  name VARCHAR(100) NOT NULL,
-                                 user_id BIGINT NOT NULL,
-                                 CONSTRAINT fk_user FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
+                                 university_id BIGINT NOT NULL,
+                                 CONSTRAINT fk_university FOREIGN KEY (university_id) REFERENCES university_entity(id) ON DELETE CASCADE
 );

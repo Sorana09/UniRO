@@ -28,7 +28,11 @@ public class UniversityService {
     }
 
     public Optional<UniversityEntity> getUniversityById(Integer id) {
-        return universityRepository.findById(id);
+        Optional<UniversityEntity> university = Optional.of(universityRepository.findById(id));
+        if(university.isPresent()) {
+            return university;
+        }
+        return Optional.empty();
     }
 
 
@@ -38,7 +42,7 @@ public class UniversityService {
 
 
     public void deleteUniversity(Integer id) {
-        universityRepository.deleteById(id);
+        universityRepository.delete(id);
     }
 }
 

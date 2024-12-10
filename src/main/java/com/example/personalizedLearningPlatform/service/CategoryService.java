@@ -20,7 +20,9 @@ public class CategoryService {
     public CategoryEntity createOrUpdateCategory(CategoryEntity categoryEntity) {
         return categoryRepository.save(categoryEntity);
     }
-
+public List<CategoryEntity> findByUniversityId(Integer universityId) {
+        return categoryRepository.findByUniversityId(universityId);
+}
 
     public List<CategoryEntity> getAllCategories() {
         return categoryRepository.findAll();

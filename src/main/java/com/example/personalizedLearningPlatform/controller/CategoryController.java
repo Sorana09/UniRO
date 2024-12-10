@@ -1,5 +1,6 @@
 package com.example.personalizedLearningPlatform.controller;
 
+import com.example.personalizedLearningPlatform.dto.CategoryDto;
 import com.example.personalizedLearningPlatform.entity.CategoryEntity;
 import com.example.personalizedLearningPlatform.service.CategoryService;
 import lombok.AllArgsConstructor;
@@ -10,6 +11,8 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Optional;
+
+import static com.example.personalizedLearningPlatform.dto.mapper.Mapper.mapper;
 
 
 @RestController
@@ -30,6 +33,14 @@ public class CategoryController {
         Optional<CategoryEntity> category = categoryService.getCategoryById(id);
         return category.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.status(HttpStatus.NOT_FOUND).build());
     }
+    @GetMapping("/uni/{id}")
+    public List<CategoryDto> getCategoryByUniversityId(@PathVariable Integer id) {
+        List<CategoryEntity> category = categoryService.findByUniversityId(id);
+        return category.stream()
+                .map(it -> mapper(it))
+                .toList();
+    }
+
 
     @PostMapping
     public ResponseEntity<CategoryEntity> createCategory(@RequestBody CategoryEntity categoryEntity) {
