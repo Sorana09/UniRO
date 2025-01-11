@@ -1,8 +1,6 @@
 package com.example.personalizedLearningPlatform.controller;
 
 import com.example.personalizedLearningPlatform.dto.UserDto;
-import com.example.personalizedLearningPlatform.dto.mapper.Mapper;
-import com.example.personalizedLearningPlatform.dto.request.ChangePasswordRequest;
 import com.example.personalizedLearningPlatform.entity.UserEntity;
 import com.example.personalizedLearningPlatform.exception.EntityNotFoundException;
 import com.example.personalizedLearningPlatform.service.UserService;

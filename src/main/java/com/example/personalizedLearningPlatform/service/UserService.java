@@ -37,6 +37,10 @@ public class UserService {
 //        return userRepository.save(user);
 //    }
 
+    public boolean verifyPassword(Long Id, String password) {
+        Optional<UserEntity> user = userRepository.findById(Id);
+        return user.map(it ->it.getHashedPassword().equals(getMD5(password))).orElse(false);
+    }
     public void deleteById(Long id) {
         userRepository.deleteById(id);
     }

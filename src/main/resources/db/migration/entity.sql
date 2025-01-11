@@ -1,6 +1,7 @@
 DROP TABLE IF EXISTS university_entity CASCADE;
 DROP TABLE IF EXISTS category_entity CASCADE;
 DROP TABLE IF EXISTS user_entity CASCADE;
+DROP TABLE IF EXISTS university_category CASCADE;
 
 CREATE TABLE user_entity(
                              id SERIAL PRIMARY KEY,
@@ -21,7 +22,24 @@ CREATE TABLE university_entity (
 
 CREATE TABLE category_entity (
                                  id SERIAL PRIMARY KEY,
-                                 name VARCHAR(100) NOT NULL,
-                                 university_id BIGINT NOT NULL,
-                                 CONSTRAINT fk_university FOREIGN KEY (university_id) REFERENCES university_entity(id) ON DELETE CASCADE
+                                 name VARCHAR(100) NOT NULL
 );
+CREATE TABLE university_category (
+                                     university_id INT NOT NULL,
+                                     category_id INT NOT NULL,
+                                     PRIMARY KEY (university_id, category_id),
+                                     FOREIGN KEY (university_id) REFERENCES university_entity(id) ON DELETE CASCADE,
+                                     FOREIGN KEY (category_id) REFERENCES category_entity(id) ON DELETE CASCADE
+);
+CREATE TABLE sessions (
+                          id INTEGER GENERATED ALWAYS AS IDENTITY,
+                          session_key VARCHAR(128) NOT NULL UNIQUE,
+                          expires_at TIMESTAMP NOT NULL,
+                          user_id INT NOT NULL,
+                          PRIMARY KEY (id),
+                          CONSTRAINT fk_session_user_id FOREIGN KEY (user_id)
+                              REFERENCES user_entity(id)
+                              ON DELETE CASCADE
+);
+
+

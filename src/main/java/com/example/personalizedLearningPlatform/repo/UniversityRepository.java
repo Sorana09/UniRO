@@ -4,21 +4,21 @@ package com.example.personalizedLearningPlatform.repo;
 import com.example.personalizedLearningPlatform.entity.UniversityEntity;
 import com.example.personalizedLearningPlatform.entity.CategoryEntity;
 import com.example.personalizedLearningPlatform.entity.UserEntity;
+import com.example.personalizedLearningPlatform.repo.rowMapper.CategoryMapper;
 import com.example.personalizedLearningPlatform.repo.rowMapper.UniversityMapper;
 import com.example.personalizedLearningPlatform.sqlMethods.SQLMethod;
 import lombok.AllArgsConstructor;
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.data.relational.core.sql.In;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.PreparedStatementCreator;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 
 import java.sql.PreparedStatement;
 import java.sql.Statement;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 
 import static com.example.personalizedLearningPlatform.sqlMethods.SQLMethod.getSql;
 
@@ -28,7 +28,9 @@ public class UniversityRepository {
 
     private final JdbcTemplate jdbcTemplate;
     private final UniversityMapper universityMapper;
+    private final CategoryMapper categoryMapper;
     private final CategoryRepository categoryRepository;
+    private final UniversityCategoryRepository universityCategoryRepository;
 
 
     public List<UniversityEntity> findAll() {
@@ -45,6 +47,7 @@ public class UniversityRepository {
         String sql = "SELECT * FROM notifications " + getSql(params);
         return jdbcTemplate.query(sql, params.values().toArray(), universityMapper);
     }
+
     public UniversityEntity findById(Integer id) {
         String universityQuery = "SELECT * FROM university_entity WHERE id = ?";
         UniversityEntity university = jdbcTemplate.queryForObject(universityQuery, universityMapper, id);
@@ -55,31 +58,59 @@ public class UniversityRepository {
         return university;
     }
 
-    public UniversityEntity save(UniversityEntity university) {
-        String insertQuery = "INSERT INTO university_entity (name, location, website, rank, admission_requirements) VALUES (?, ?, ?, ?, ?)";
+    public UniversityEntity save(UniversityEntity universityEntity) {
+        // Insert university into the database first
+        String insertQuery = "INSERT INTO university_entity (id,name, location, website, rank, admission_requirements) VALUES (?,?, ?, ?, ?, ?)";
         KeyHolder keyHolder = new GeneratedKeyHolder();
 
-        jdbcTemplate.update(connection -> {
+        PreparedStatementCreator psc = connection -> {
             PreparedStatement ps = connection.prepareStatement(insertQuery, Statement.RETURN_GENERATED_KEYS);
-            ps.setString(1, university.getName());
-            ps.setString(2, university.getLocation());
-            ps.setString(3, university.getWebsite());
-            ps.setInt(4, university.getRank());
-            ps.setString(5, university.getAdmissionRequirements());
+            ps.setInt(1, universityEntity.getId());
+            ps.setString(2, universityEntity.getName());
+            ps.setString(3, universityEntity.getLocation());
+            ps.setString(4, universityEntity.getWebsite());
+            ps.setInt(5, universityEntity.getRank());
+            ps.setString(6, universityEntity.getAdmissionRequirements());
             return ps;
-        }, keyHolder);
+        };
 
-        Integer generatedUniversityId = keyHolder.getKey().intValue();
-        university.setId(generatedUniversityId);
+        jdbcTemplate.update(psc, keyHolder);
 
-        if (university.getCategoryEntities() != null) {
-            university.getCategoryEntities().forEach(category -> {
-                category.setUniversityId(generatedUniversityId);
-                categoryRepository.save(category);
-            });
+        // Get the generated university ID
+        Map<String, Object> keys = keyHolder.getKeys();
+        if (keys != null && keys.containsKey("id")) {
+            universityEntity.setId(((Number) keys.get("id")).intValue());
         }
 
-        return university;
+
+        if (universityEntity.getCategoryEntities() != null) {
+
+            Set<CategoryEntity> uniqueCategories = new HashSet<>();
+
+            for (CategoryEntity categoryEntity : universityEntity.getCategoryEntities()) {
+
+                CategoryEntity existingCategory = categoryRepository.findByName(categoryEntity.getName());
+                if (existingCategory == null) {
+
+                    categoryRepository.save(CategoryEntity.builder()
+                            .id(categoryEntity.getId())
+                            .name(categoryEntity.getName())
+                            .build());
+                    uniqueCategories.add(categoryEntity);
+                } else {
+                    uniqueCategories.add(existingCategory);
+                }
+            }
+
+
+            universityEntity.setCategoryEntities(new ArrayList<>(uniqueCategories));
+
+            for (CategoryEntity categoryEntity : uniqueCategories) {
+                universityCategoryRepository.saveUniCat(universityEntity.getId(), categoryEntity.getId());
+            }
+        }
+
+        return universityEntity;
     }
 
     public int update(UniversityEntity university) {
@@ -95,5 +126,10 @@ public class UniversityRepository {
 
     public int delete(Integer id) {
         return jdbcTemplate.update("DELETE FROM university_entity WHERE id = ?", id);
+    }
+
+    public List<CategoryEntity> getCategoriesByUniversityId(Integer universityId) {
+        String sql = "SELECT c.* FROM category_entity c JOIN university_category uc ON c.id = uc.category_id WHERE uc.university_id = ?";
+        return jdbcTemplate.query(sql,categoryMapper, universityId);
     }
 }

@@ -2,6 +2,7 @@ package com.example.personalizedLearningPlatform.controller;
 
 import com.example.personalizedLearningPlatform.dto.CategoryDto;
 import com.example.personalizedLearningPlatform.entity.CategoryEntity;
+import com.example.personalizedLearningPlatform.entity.UniversityEntity;
 import com.example.personalizedLearningPlatform.service.CategoryService;
 import lombok.AllArgsConstructor;
 import org.springframework.data.relational.core.sql.In;
@@ -41,6 +42,10 @@ public class CategoryController {
                 .toList();
     }
 
+    @GetMapping("/universities/{categoryId}")
+    public List<UniversityEntity> getUniversitiesByCategory(@PathVariable Integer categoryId) {
+        return categoryService.getUniversitiesByCategory(categoryId);
+    }
 
     @PostMapping
     public ResponseEntity<CategoryEntity> createCategory(@RequestBody CategoryEntity categoryEntity) {

@@ -2,6 +2,7 @@ package com.example.personalizedLearningPlatform.controller;
 
 import com.example.personalizedLearningPlatform.dto.UniversityDto;
 import com.example.personalizedLearningPlatform.dto.mapper.Mapper;
+import com.example.personalizedLearningPlatform.entity.CategoryEntity;
 import com.example.personalizedLearningPlatform.entity.UniversityEntity;
 import com.example.personalizedLearningPlatform.service.UniversityService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -58,6 +59,10 @@ public class UniversityController {
     public ResponseEntity<UniversityEntity> getUniversityById(@PathVariable  Integer id) {
         Optional<UniversityEntity> university = universityService.getUniversityById(id);
         return university.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
+    }
+    @GetMapping("/{id}/categories")
+    public List<CategoryEntity> getCategoriesByUniversityId(@PathVariable Integer id) {
+        return universityService.getCategoriesByUniversityId(id);
     }
 
     @PostMapping("/add")

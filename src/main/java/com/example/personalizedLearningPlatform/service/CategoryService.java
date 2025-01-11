@@ -1,6 +1,7 @@
 package com.example.personalizedLearningPlatform.service;
 
 import com.example.personalizedLearningPlatform.entity.CategoryEntity;
+import com.example.personalizedLearningPlatform.entity.UniversityEntity;
 import com.example.personalizedLearningPlatform.repo.CategoryRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,6 +31,10 @@ public List<CategoryEntity> findByUniversityId(Integer universityId) {
 
     public Optional<CategoryEntity> getCategoryById(Integer id) {
         return categoryRepository.findById(id);
+    }
+
+    public List<UniversityEntity> getUniversitiesByCategory(Integer categoryId) {
+        return categoryRepository.getUniversitiesByCategory(categoryId);
     }
 
     public void deleteCategory(Integer id) {

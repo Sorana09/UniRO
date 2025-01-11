@@ -1,10 +1,12 @@
 package com.example.personalizedLearningPlatform.dto.mapper;
 
 import com.example.personalizedLearningPlatform.dto.CategoryDto;
+import com.example.personalizedLearningPlatform.dto.SessionDto;
 import com.example.personalizedLearningPlatform.dto.UniversityDto;
 import com.example.personalizedLearningPlatform.dto.UserDto;
 import com.example.personalizedLearningPlatform.dto.enums.AdmmisionRequirementsDto;
 import com.example.personalizedLearningPlatform.entity.CategoryEntity;
+import com.example.personalizedLearningPlatform.entity.SessionEntity;
 import com.example.personalizedLearningPlatform.entity.UniversityEntity;
 import com.example.personalizedLearningPlatform.entity.UserEntity;
 import com.example.personalizedLearningPlatform.repo.rowMapper.CategoryMapper;
@@ -57,7 +59,18 @@ public class Mapper {
         return CategoryDto.builder()
                 .id(categoryEntity.getId())
                 .name(categoryEntity.getName())
-                .universityId(categoryEntity.getUniversityId())
+                .build();
+    }
+
+    public static SessionDto mapper(SessionEntity sessionEntity) {
+        if(sessionEntity == null) {
+            return null;
+        }
+        return SessionDto.builder()
+                .expiredAt(sessionEntity.getExpiredAt())
+                .sessionKey(sessionEntity.getSessionKey())
+                .userId(sessionEntity.getUserId())
+                .id(sessionEntity.getId())
                 .build();
     }
 }
