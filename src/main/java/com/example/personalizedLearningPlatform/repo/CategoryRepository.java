@@ -8,8 +8,14 @@ import com.example.personalizedLearningPlatform.repo.rowMapper.CategoryMapper;
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.PreparedStatementCreator;
+import org.springframework.jdbc.support.GeneratedKeyHolder;
+import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import java.util.List;
 import java.util.Optional;
 @Repository
@@ -24,11 +30,23 @@ public class CategoryRepository {
     }
 
     public CategoryEntity save(CategoryEntity category) {
+
+        KeyHolder keyHolder = new GeneratedKeyHolder();
+
+        String sql = "INSERT INTO category_entity (name) VALUES (?)";
+
         jdbcTemplate.update(
-                "INSERT INTO category_entity (id, name) VALUES (?, ?)",
-                category.getId(),
-                category.getName()
-        );
+                new PreparedStatementCreator() {
+                    public PreparedStatement createPreparedStatement(Connection connection) throws SQLException {
+                        PreparedStatement ps = connection.prepareStatement(sql, new String[]{"id"});
+                        ps.setString(1, category.getName());
+                        return ps;
+                    }
+                }, keyHolder);
+
+
+        category.setId(keyHolder.getKey().intValue());
+
         return category;
     }
 

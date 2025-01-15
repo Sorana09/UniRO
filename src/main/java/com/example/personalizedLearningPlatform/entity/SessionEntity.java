@@ -15,5 +15,5 @@ public class SessionEntity {
     private Integer id;
     private OffsetDateTime expiredAt;
     private String sessionKey;
-    private Long userId;
+    private Integer userId;
 }

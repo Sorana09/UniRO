@@ -19,7 +19,7 @@ public class SessionMapper implements RowMapper<SessionEntity> {
         sessionEntity.setId(rs.getInt("id"));
         sessionEntity.setSessionKey(rs.getString("session_key"));
         sessionEntity.setExpiredAt(rs.getObject("expires_at", OffsetDateTime.class));
-        sessionEntity.setUserId(rs.getLong("user_id"));
+        sessionEntity.setUserId(rs.getInt("user_id"));
 
 
         return sessionEntity;

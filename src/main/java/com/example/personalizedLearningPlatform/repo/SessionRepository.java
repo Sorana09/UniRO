@@ -4,8 +4,12 @@ import com.example.personalizedLearningPlatform.entity.SessionEntity;
 import com.example.personalizedLearningPlatform.repo.rowMapper.SessionMapper;
 import lombok.AllArgsConstructor;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.support.GeneratedKeyHolder;
+import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 
+import java.sql.PreparedStatement;
+import java.time.OffsetDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -16,18 +20,31 @@ public class SessionRepository {
     private final JdbcTemplate jdbcTemplate;
     private final SessionMapper sessionMapper;
 
-    public List<SessionEntity> find(Long userId){
+    public List<SessionEntity> find(Integer userId){
         List<SessionEntity> sessionEntities = jdbcTemplate.query("select * from sessions where user_id=?", new Object[]{userId}, new SessionMapper());
         return sessionEntities;
     }
 
     public void insert(SessionEntity sessionEntity){
-        jdbcTemplate.update("INSERT INTO sessions (user_id,expires_at,session_key) VALUES (?,?,?)",
-                sessionEntity.getUserId(),sessionEntity.getExpiredAt(),sessionEntity.getSessionKey());
+        KeyHolder keyHolder = new GeneratedKeyHolder();
+
+        jdbcTemplate.update(connection -> {
+            PreparedStatement ps = connection.prepareStatement(
+                    "INSERT INTO sessions (session_key, expires_at, user_id) VALUES (?, ?, ?)",
+                    new String[]{"id"}
+            );
+            ps.setString(1, sessionEntity.getSessionKey());
+            ps.setObject(2, sessionEntity.getExpiredAt());
+            //ps.setTimestamp(2, Timestamp.valueOf(sessionEntity.getExpiredAt().toLocalDateTime()));
+            ps.setInt(3, sessionEntity.getUserId());
+            return ps;
+        }, keyHolder);
+
+        sessionEntity.setId(keyHolder.getKey().intValue());
     }
 
     public Optional<SessionEntity> getByKey(String key){
-       List<SessionEntity> sessionEntity = jdbcTemplate.query("SELECT * FROM sessions where session_key=? ",sessionMapper,key);
+       List<SessionEntity> sessionEntity = jdbcTemplate.query("SELECT * FROM sessions where session_key=? ", sessionMapper,key);
        return sessionEntity.isEmpty() ? Optional.empty() : Optional.of(sessionEntity.get(0));
     }
 

@@ -2,6 +2,7 @@ package com.example.personalizedLearningPlatform.controller;
 
 import com.example.personalizedLearningPlatform.dto.SessionDto;
 import com.example.personalizedLearningPlatform.dto.mapper.Mapper;
+import com.example.personalizedLearningPlatform.entity.LoginRequest;
 import com.example.personalizedLearningPlatform.entity.SessionEntity;
 import com.example.personalizedLearningPlatform.service.SessionService;
 import lombok.AllArgsConstructor;
@@ -20,7 +21,7 @@ import static com.example.personalizedLearningPlatform.dto.mapper.Mapper.mapper;
 public class SessionController {
     private final SessionService sessionService;
 
-    @GetMapping("/sessions1/{key}")
+    @GetMapping("/sessions/{key}")
     public ResponseEntity<SessionDto> getSession(@PathVariable(name = "key") String key) {
         Optional<SessionEntity> sessionEntity = sessionService.getSessionBySessionKey(key);
         if (sessionEntity.isPresent()) {
@@ -29,16 +30,14 @@ public class SessionController {
         else return ResponseEntity.notFound().build();
     }
     @PostMapping("/sessions")
-    public ResponseEntity<SessionDto> createSession(@RequestBody String key) {
-        Optional<SessionEntity> sessionEntity = sessionService.create(key);
-        if (sessionEntity.isPresent()) {
-            return ResponseEntity.ok(mapper(sessionEntity.get()));
-        }
-        else return ResponseEntity.notFound().build();
+    public ResponseEntity<SessionDto> createSession(@RequestBody LoginRequest loginRequest) {
+        return sessionService.create(loginRequest)
+                .map(session -> ResponseEntity.ok(mapper(session)))
+                .orElseGet(() -> ResponseEntity.badRequest().build());
     }
 
     @GetMapping("/sessions")
-    public ResponseEntity<List<SessionDto>> getSessions(@RequestParam(name = "userId", required = false) Long userId,
+    public ResponseEntity<List<SessionDto>> getSessions(@RequestParam(name = "userId", required = false) Integer userId,
                                                      @RequestParam(name = "isActive", required = false) Boolean isActive) {
        List<SessionEntity> sessionEntities = sessionService.find(userId,isActive);
        return ResponseEntity.ok(sessionEntities.stream().map(sessionEntity ->mapper(sessionEntity)).collect(Collectors.toList()));

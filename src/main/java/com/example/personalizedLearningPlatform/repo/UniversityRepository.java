@@ -59,10 +59,11 @@ public class UniversityRepository {
     }
 
     public UniversityEntity save(UniversityEntity universityEntity) {
-        // Insert university into the database first
-        String insertQuery = "INSERT INTO university_entity (id,name, location, website, rank, admission_requirements) VALUES (?,?, ?, ?, ?, ?)";
+
+        String insertQuery = "INSERT INTO university_entity (id, name, location, website, rank, admission_requirements) VALUES (?, ?, ?, ?, ?, ?)";
         KeyHolder keyHolder = new GeneratedKeyHolder();
 
+        // Insert university
         PreparedStatementCreator psc = connection -> {
             PreparedStatement ps = connection.prepareStatement(insertQuery, Statement.RETURN_GENERATED_KEYS);
             ps.setInt(1, universityEntity.getId());
@@ -76,35 +77,33 @@ public class UniversityRepository {
 
         jdbcTemplate.update(psc, keyHolder);
 
-        // Get the generated university ID
         Map<String, Object> keys = keyHolder.getKeys();
         if (keys != null && keys.containsKey("id")) {
             universityEntity.setId(((Number) keys.get("id")).intValue());
         }
 
-
         if (universityEntity.getCategoryEntities() != null) {
-
             Set<CategoryEntity> uniqueCategories = new HashSet<>();
 
             for (CategoryEntity categoryEntity : universityEntity.getCategoryEntities()) {
 
                 CategoryEntity existingCategory = categoryRepository.findByName(categoryEntity.getName());
-                if (existingCategory == null) {
 
-                    categoryRepository.save(CategoryEntity.builder()
-                            .id(categoryEntity.getId())
+                if (existingCategory == null) {
+                    CategoryEntity newCategory = CategoryEntity.builder()
                             .name(categoryEntity.getName())
-                            .build());
-                    uniqueCategories.add(categoryEntity);
+                            .build();
+                    categoryRepository.save(newCategory);
+                    uniqueCategories.add(newCategory);
                 } else {
+
                     uniqueCategories.add(existingCategory);
                 }
             }
 
-
             universityEntity.setCategoryEntities(new ArrayList<>(uniqueCategories));
 
+            // Link the categories to the university
             for (CategoryEntity categoryEntity : uniqueCategories) {
                 universityCategoryRepository.saveUniCat(universityEntity.getId(), categoryEntity.getId());
             }
@@ -112,6 +111,8 @@ public class UniversityRepository {
 
         return universityEntity;
     }
+
+
 
     public int update(UniversityEntity university) {
         String updateQuery = "UPDATE university_entity SET name = ?, location = ?, website = ?, rank = ?, admission_requirements = ? WHERE id = ?";

@@ -6,8 +6,11 @@ import com.example.personalizedLearningPlatform.repo.rowMapper.UserMapper;
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.data.relational.core.sql.In;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.support.GeneratedKeyHolder;
+import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 
+import java.sql.PreparedStatement;
 import java.util.List;
 import java.util.Optional;
 
@@ -23,18 +26,25 @@ public class UserRepository {
     }
 
     public UserEntity save(UserEntity user) {
-        jdbcTemplate.update(
-                "INSERT INTO user_entity (id, email, first_name, last_name, hashed_password) VALUES (?, ?, ?, ?, ?)",
-                user.getId(),
-                user.getEmail(),
-                user.getFirstName(),
-                user.getLastName(),
-                user.getHashedPassword()
-        );
+        KeyHolder keyHolder = new GeneratedKeyHolder();
+
+        jdbcTemplate.update(connection -> {
+            PreparedStatement ps = connection.prepareStatement(
+                    "INSERT INTO user_entity (email, first_name, last_name, hashed_password) VALUES (?, ?, ?, ?)",
+                    new String[]{"id"}
+            );
+            ps.setString(1, user.getEmail());
+            ps.setString(2, user.getFirstName());
+            ps.setString(3, user.getLastName());
+            ps.setString(4, user.getHashedPassword());
+            return ps;
+        }, keyHolder);
+
+        user.setId(keyHolder.getKey().intValue());
         return user;
     }
 
-    public Optional<UserEntity> findById(Long id) {
+    public Optional<UserEntity> findById(Integer id) {
         List<UserEntity> users = jdbcTemplate.query(
                 "SELECT * FROM user_entity WHERE id = ?",
                 userMapper,

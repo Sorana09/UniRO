@@ -5,10 +5,12 @@ import com.example.personalizedLearningPlatform.entity.UserEntity;
 import com.example.personalizedLearningPlatform.exception.EntityNotFoundException;
 import com.example.personalizedLearningPlatform.service.UserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.relational.core.sql.In;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import static com.example.personalizedLearningPlatform.dto.mapper.Mapper.mapper;
@@ -20,15 +22,16 @@ public class UserController {
 
     private final UserService userService;
 
-    @GetMapping("/{userId}")
-    public ResponseEntity<UserDto> getUser(@PathVariable Long userId) {
-        return userService.findById(userId)
-                .map(user -> ResponseEntity.ok(mapper(user)))
-                .orElseThrow(() -> new EntityNotFoundException());
+    @GetMapping("/{id}")
+    public ResponseEntity<UserDto> getUserById(@PathVariable(name = "id") Integer id) {
+        Optional<UserEntity> user = userService.findById(id);
+        return user
+                .map(userEntity -> ResponseEntity.ok(mapper(userEntity)))
+                .orElseGet(() -> ResponseEntity.notFound().build());
     }
 
-    @GetMapping("/email/{email}")
-    public ResponseEntity<UserDto> getUserByEmail(@PathVariable String email) {
+    @GetMapping("/emails/{email}")
+    public ResponseEntity<UserDto> getUserByEmail(@PathVariable(name = "email") String email) {
         return userService.findByEmail(email)
                 .map(user -> ResponseEntity.ok(mapper(user)))
                 .orElseThrow(() -> new EntityNotFoundException());
@@ -47,9 +50,8 @@ public class UserController {
     }
 
     @PostMapping("/signup")
-    public ResponseEntity<String> signup(@RequestBody UserEntity user) {
-        UserEntity savedUser = userService.save(user);
-        return ResponseEntity.ok().body("User created successfully with ID " + savedUser.getId());
+    public ResponseEntity<UserDto> signup(@RequestBody UserEntity user) {
+       return ResponseEntity.ok(mapper(userService.save(user)));
     }
 
 //    @PutMapping("/resetPass/{email}")
@@ -64,7 +66,7 @@ public class UserController {
 //    }
 
     @PutMapping("/{id}")
-    public ResponseEntity<UserDto> updateUser(@PathVariable Long id, @RequestBody UserEntity user) {
+    public ResponseEntity<UserDto> updateUser(@PathVariable Integer id, @RequestBody UserEntity user) {
         return userService.findById(id)
                 .map(existingUser -> {
                     user.setId(existingUser.getId());
