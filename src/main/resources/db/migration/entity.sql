@@ -24,7 +24,7 @@ CREATE TABLE university_entity (
 
 CREATE TABLE category_entity (
                                  id SERIAL PRIMARY KEY,
-                                 name VARCHAR(100) NOT NULL
+                                 name VARCHAR(1000) NOT NULL
 );
 CREATE TABLE university_category (
                                      university_id INT NOT NULL,

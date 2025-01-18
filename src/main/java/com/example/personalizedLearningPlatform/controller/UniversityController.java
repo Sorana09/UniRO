@@ -5,6 +5,7 @@ import com.example.personalizedLearningPlatform.dto.mapper.ExcelToUniversityMapp
 import com.example.personalizedLearningPlatform.dto.mapper.Mapper;
 import com.example.personalizedLearningPlatform.entity.CategoryEntity;
 import com.example.personalizedLearningPlatform.entity.UniversityEntity;
+import com.example.personalizedLearningPlatform.service.UniversityCategoryService;
 import com.example.personalizedLearningPlatform.service.UniversityService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -27,6 +28,8 @@ public class UniversityController {
 
     @Autowired
     private UniversityService universityService;
+    @Autowired
+    private UniversityCategoryService universityCategoryService;
 
     @PostMapping("/upload")
     public String uploadFile(@RequestParam("file") MultipartFile file) {
@@ -36,8 +39,9 @@ public class UniversityController {
 
             ExcelToUniversityMapper mapper = new ExcelToUniversityMapper();
             List<UniversityEntity> universities = mapper.readExcelFile(tempFile.getAbsolutePath());
-
-            universityService.saveAllUniversities(universities);
+Map<String, List<CategoryEntity>> categoryEntityMap = mapper.readFacultySheet(tempFile.getAbsolutePath());
+           universityCategoryService.saveUniversitiesWithCategories(universities,categoryEntityMap);
+            //universityService.saveAllUniversities(universities);
 
             tempFile.delete();
 

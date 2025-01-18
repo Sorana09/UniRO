@@ -27,6 +27,10 @@ public class UniversityService {
 
     private final UniversityRepoExtract universityRepoExtract;
 
+    public UniversityEntity getUniversityByName(String name) {
+        return universityRepoExtract.findByName(name).get();
+    }
+
     public void saveAllUniversities(List<UniversityEntity> universities) {
         universityRepoExtract.saveAllUniversities(universities);
     }

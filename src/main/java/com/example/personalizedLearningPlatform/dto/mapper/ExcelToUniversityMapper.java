@@ -6,7 +6,9 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 import java.io.FileInputStream;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class ExcelToUniversityMapper {
 
@@ -58,6 +60,41 @@ public class ExcelToUniversityMapper {
         return universities;
     }
 
+    public Map<String, List<CategoryEntity>> readFacultySheet(String filePath) {
+        Map<String, List<CategoryEntity>> universityCategoryMap = new HashMap<>();
+
+        try (FileInputStream fis = new FileInputStream(filePath);
+             Workbook workbook = new XSSFWorkbook(fis)) {
+
+            Sheet sheet = workbook.getSheet("Facultati");
+
+            if (sheet == null) {
+                throw new RuntimeException("Sheet 'Facultati' not found in the Excel file.");
+            }
+
+            boolean isHeader = true;
+            for (Row row : sheet) {
+                if (isHeader) {
+                    isHeader = false;
+                    continue;
+                }
+
+                String facultyName = getStringValue(row.getCell(1));
+                String universityName = getStringValue(row.getCell(2));
+
+                if (!facultyName.isEmpty() && !universityName.isEmpty()) {
+                    universityCategoryMap.computeIfAbsent(universityName, k -> new ArrayList<>())
+                            .add(CategoryEntity.builder().name(facultyName).build());
+                }
+            }
+
+        } catch (Exception e) {
+            System.err.println("Failed to read Excel file: " + e.getMessage());
+            throw new RuntimeException("Failed to read Excel file", e);
+        }
+
+        return universityCategoryMap;
+    }
 
     private Integer getIntegerValue(Cell cell) {
         if (cell == null) {
