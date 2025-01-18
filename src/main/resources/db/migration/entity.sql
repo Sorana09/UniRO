@@ -18,8 +18,8 @@ CREATE TABLE university_entity (
                                    name VARCHAR(255) NOT NULL,
                                    location VARCHAR(255) NOT NULL,
                                    website VARCHAR(255) NOT NULL,
-                                   rank INT NOT NULL,
-                                   admission_requirements VARCHAR(1000) NOT NULL
+                                   rank INT,
+                                   admission_requirements VARCHAR(1000)
 );
 
 CREATE TABLE category_entity (

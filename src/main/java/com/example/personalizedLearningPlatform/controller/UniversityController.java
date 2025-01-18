@@ -1,6 +1,7 @@
 package com.example.personalizedLearningPlatform.controller;
 
 import com.example.personalizedLearningPlatform.dto.UniversityDto;
+import com.example.personalizedLearningPlatform.dto.mapper.ExcelToUniversityMapper;
 import com.example.personalizedLearningPlatform.dto.mapper.Mapper;
 import com.example.personalizedLearningPlatform.entity.CategoryEntity;
 import com.example.personalizedLearningPlatform.entity.UniversityEntity;
@@ -9,8 +10,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 
+import java.io.File;
+import java.io.IOException;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -23,6 +27,26 @@ public class UniversityController {
 
     @Autowired
     private UniversityService universityService;
+
+    @PostMapping("/upload")
+    public String uploadFile(@RequestParam("file") MultipartFile file) {
+        try {
+            File tempFile = File.createTempFile("universities", ".xlsx");
+            file.transferTo(tempFile);
+
+            ExcelToUniversityMapper mapper = new ExcelToUniversityMapper();
+            List<UniversityEntity> universities = mapper.readExcelFile(tempFile.getAbsolutePath());
+
+            universityService.saveAllUniversities(universities);
+
+            tempFile.delete();
+
+            return "Universities uploaded and saved successfully!";
+        } catch (IOException e) {
+            e.printStackTrace();
+            return "Failed to upload and process the file.";
+        }
+    }
 
     @GetMapping
     public ResponseEntity<List<UniversityEntity>> getAllUniversities() {

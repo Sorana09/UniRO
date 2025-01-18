@@ -4,6 +4,7 @@ import com.example.personalizedLearningPlatform.entity.CategoryEntity;
 import com.example.personalizedLearningPlatform.entity.UniversityEntity;
 import com.example.personalizedLearningPlatform.repo.CategoryRepository;
 import com.example.personalizedLearningPlatform.repo.UniversityCategoryRepository;
+import com.example.personalizedLearningPlatform.repo.UniversityRepoExtract;
 import com.example.personalizedLearningPlatform.repo.UniversityRepository;
 
 import lombok.AllArgsConstructor;
@@ -24,6 +25,11 @@ public class UniversityService {
     private final CategoryRepository categoryRepository;
     private final UniversityCategoryRepository universityCategoryRepository;
 
+    private final UniversityRepoExtract universityRepoExtract;
+
+    public void saveAllUniversities(List<UniversityEntity> universities) {
+        universityRepoExtract.saveAllUniversities(universities);
+    }
     public List<UniversityEntity> getAllUniversities() {
         return universityRepository.findAll();
     }

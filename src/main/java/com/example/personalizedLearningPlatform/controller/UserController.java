@@ -3,8 +3,10 @@ package com.example.personalizedLearningPlatform.controller;
 import com.example.personalizedLearningPlatform.dto.UserDto;
 import com.example.personalizedLearningPlatform.entity.UserEntity;
 import com.example.personalizedLearningPlatform.exception.EntityNotFoundException;
+import com.example.personalizedLearningPlatform.repo.UserRepository;
 import com.example.personalizedLearningPlatform.service.UserService;
 import lombok.RequiredArgsConstructor;
+import org.apache.coyote.Response;
 import org.springframework.data.relational.core.sql.In;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -21,6 +23,8 @@ import static com.example.personalizedLearningPlatform.dto.mapper.Mapper.mapper;
 public class UserController {
 
     private final UserService userService;
+    private final UserRepository userRepository;
+
 
     @GetMapping("/{id}")
     public ResponseEntity<UserDto> getUserById(@PathVariable(name = "id") Integer id) {
@@ -32,9 +36,9 @@ public class UserController {
 
     @GetMapping("/emails/{email}")
     public ResponseEntity<UserDto> getUserByEmail(@PathVariable(name = "email") String email) {
-        return userService.findByEmail(email)
-                .map(user -> ResponseEntity.ok(mapper(user)))
-                .orElseThrow(() -> new EntityNotFoundException());
+       return userService.findByEmail(email)
+               .map(userEntity -> ResponseEntity.ok(mapper(userEntity)))
+               .orElse(ResponseEntity.notFound().build());
     }
 
     @GetMapping
