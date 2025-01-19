@@ -15,9 +15,6 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class UniversityRepoExtract {
 
-    private static final String INSERT_SQL =
-            "INSERT INTO university_entity ( name, location, website, rank, admission_requirements) " +
-                    "VALUES ( ?, ?, ?, ?, ?)";
 
     private final JdbcTemplate jdbcTemplate;
     private final UniversityMapper universityMapper;
@@ -25,7 +22,8 @@ public class UniversityRepoExtract {
 
     public void saveAllUniversities(List<UniversityEntity> universities) {
         jdbcTemplate.batchUpdate(
-                INSERT_SQL,
+                "INSERT INTO university_entity ( name, location, website, rank, admission_requirements) " +
+                        "VALUES ( ?, ?, ?, ?, ?)",
                 universities,
                 universities.size(),
                 (ps, university) -> {
@@ -33,7 +31,7 @@ public class UniversityRepoExtract {
                     ps.setString(1, university.getName());
                     ps.setString(2, university.getLocation());
                     ps.setString(3, university.getWebsite());
-                    ps.setObject(4, university.getRank()); // Rank may be null
+                    ps.setObject(4, university.getRank());
                     ps.setString(5, university.getAdmissionRequirements());
                 }
         );

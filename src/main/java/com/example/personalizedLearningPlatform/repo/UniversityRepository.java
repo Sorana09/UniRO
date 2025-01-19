@@ -63,7 +63,6 @@ public class UniversityRepository {
         String insertQuery = "INSERT INTO university_entity (id, name, location, website, rank, admission_requirements) VALUES (?, ?, ?, ?, ?, ?)";
         KeyHolder keyHolder = new GeneratedKeyHolder();
 
-        // Insert university
         PreparedStatementCreator psc = connection -> {
             PreparedStatement ps = connection.prepareStatement(insertQuery, Statement.RETURN_GENERATED_KEYS);
             ps.setInt(1, universityEntity.getId());
@@ -103,7 +102,6 @@ public class UniversityRepository {
 
             universityEntity.setCategoryEntities(new ArrayList<>(uniqueCategories));
 
-            // Link the categories to the university
             for (CategoryEntity categoryEntity : uniqueCategories) {
                 universityCategoryRepository.saveUniCat(universityEntity.getId(), categoryEntity.getId());
             }

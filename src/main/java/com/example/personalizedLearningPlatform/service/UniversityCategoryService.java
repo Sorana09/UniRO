@@ -19,6 +19,7 @@ import java.util.Map;
 public class UniversityCategoryService {
 
    private final UniversityCategoryRepository universityRepository;
+
     public void saveUniversitiesWithCategories(List<UniversityEntity> universities,
                                                Map<String, List<CategoryEntity>> universityCategoryMap) {
         for (UniversityEntity university : universities) {
