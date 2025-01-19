@@ -6,9 +6,7 @@ import com.example.personalizedLearningPlatform.repo.CategoryRepository;
 import com.example.personalizedLearningPlatform.repo.UniversityCategoryRepository;
 import com.example.personalizedLearningPlatform.repo.UniversityRepoExtract;
 import com.example.personalizedLearningPlatform.repo.UniversityRepository;
-
 import lombok.AllArgsConstructor;
-
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -34,17 +32,18 @@ public class UniversityService {
     public void saveAllUniversities(List<UniversityEntity> universities) {
         universityRepoExtract.saveAllUniversities(universities);
     }
+
     public List<UniversityEntity> getAllUniversities() {
         return universityRepository.findAll();
     }
 
-    public List<UniversityEntity> getUniversitiesAllParams(Map<String, Object> filters){
+    public List<UniversityEntity> getUniversitiesAllParams(Map<String, Object> filters) {
         return universityRepository.findAllParams(filters);
     }
 
     public Optional<UniversityEntity> getUniversityById(Integer id) {
         Optional<UniversityEntity> university = Optional.of(universityRepository.findById(id));
-        if(university.isPresent()) {
+        if (university.isPresent()) {
             return university;
         }
         return Optional.empty();
@@ -60,6 +59,7 @@ public class UniversityService {
     public void deleteUniversity(Integer id) {
         universityRepository.delete(id);
     }
+
     public List<CategoryEntity> getCategoriesByUniversityId(Integer universityId) {
         return universityRepository.getCategoriesByUniversityId(universityId);
     }

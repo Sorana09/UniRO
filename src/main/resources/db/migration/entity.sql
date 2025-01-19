@@ -4,6 +4,7 @@ DROP TABLE IF EXISTS university_category CASCADE;
 
 DROP TABLE IF EXISTS user_entity CASCADE;
 DROP TABLE IF EXISTS sessions CASCADE;
+DROP TABLE IF EXISTS review_entity CASCADE;
 
 CREATE TABLE user_entity (
                              id SERIAL PRIMARY KEY,
@@ -42,5 +43,20 @@ CREATE TABLE sessions (
                               REFERENCES user_entity(id)
                               ON DELETE CASCADE
 );
+
+CREATE TABLE review_entity(
+                        id SERIAL PRIMARY KEY,
+                        message VARCHAR(255) NOT NULL,
+                        wrote_at TIMESTAMP NOT NULL,
+                        user_id INT NOT NULL,
+                        CONSTRAINT  fk_review_entity_user_id FOREIGN KEY (user_id)
+                                              REFERENCES  user_entity(id)
+                                              ON DELETE CASCADE,
+                        university_id INT NOT NULL,
+                        CONSTRAINT fk_review_entity_university_id FOREIGN KEY (university_id)
+                                              REFERENCES  university_entity(id)
+                                              ON DELETE CASCADE
+
+)
 
 

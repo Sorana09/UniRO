@@ -1,23 +1,20 @@
 package com.example.personalizedLearningPlatform.entity;
 
-
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.OffsetDateTime;
 
 @Data
+@AllArgsConstructor
 @Builder
 @NoArgsConstructor
-@AllArgsConstructor
-public class UserEntity {
-
+public class ReviewEntity {
     private Integer id;
-    private String email;
-    private String firstName;
-    private String lastName;
-    private String hashedPassword;
-
+    private String message;
+    private Integer userId;
+    private Integer universityId;
+    private OffsetDateTime wroteAt;
 }
-

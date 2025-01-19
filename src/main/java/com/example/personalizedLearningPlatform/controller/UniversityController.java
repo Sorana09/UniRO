@@ -2,7 +2,6 @@ package com.example.personalizedLearningPlatform.controller;
 
 import com.example.personalizedLearningPlatform.dto.UniversityDto;
 import com.example.personalizedLearningPlatform.dto.mapper.ExcelToUniversityMapper;
-import com.example.personalizedLearningPlatform.dto.mapper.Mapper;
 import com.example.personalizedLearningPlatform.entity.CategoryEntity;
 import com.example.personalizedLearningPlatform.entity.UniversityEntity;
 import com.example.personalizedLearningPlatform.service.UniversityCategoryService;
@@ -13,13 +12,12 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-
 import java.io.File;
 import java.io.IOException;
 import java.util.*;
 import java.util.stream.Collectors;
 
-import static com.example.personalizedLearningPlatform.dto.mapper.Mapper.*;
+import static com.example.personalizedLearningPlatform.dto.mapper.Mapper.mapper;
 
 
 @RestController
@@ -39,8 +37,8 @@ public class UniversityController {
 
             ExcelToUniversityMapper mapper = new ExcelToUniversityMapper();
             List<UniversityEntity> universities = mapper.readExcelFile(tempFile.getAbsolutePath());
-Map<String, List<CategoryEntity>> categoryEntityMap = mapper.readFacultySheet(tempFile.getAbsolutePath());
-           universityCategoryService.saveUniversitiesWithCategories(universities,categoryEntityMap);
+            Map<String, List<CategoryEntity>> categoryEntityMap = mapper.readFacultySheet(tempFile.getAbsolutePath());
+            universityCategoryService.saveUniversitiesWithCategories(universities, categoryEntityMap);
             //universityService.saveAllUniversities(universities);
 
             tempFile.delete();
@@ -57,6 +55,7 @@ Map<String, List<CategoryEntity>> categoryEntityMap = mapper.readFacultySheet(te
         List<UniversityEntity> universities = universityService.getAllUniversities();
         return new ResponseEntity<>(universities, HttpStatus.OK);
     }
+
     @GetMapping("/universities")
     public ResponseEntity<List<UniversityDto>> getUniversities(
             @RequestParam(required = false, name = "name") String name,
@@ -84,10 +83,11 @@ Map<String, List<CategoryEntity>> categoryEntityMap = mapper.readFacultySheet(te
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<UniversityEntity> getUniversityById(@PathVariable  Integer id) {
+    public ResponseEntity<UniversityEntity> getUniversityById(@PathVariable Integer id) {
         Optional<UniversityEntity> university = universityService.getUniversityById(id);
         return university.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
     }
+
     @GetMapping("/{id}/categories")
     public List<CategoryEntity> getCategoriesByUniversityId(@PathVariable Integer id) {
         return universityService.getCategoriesByUniversityId(id);

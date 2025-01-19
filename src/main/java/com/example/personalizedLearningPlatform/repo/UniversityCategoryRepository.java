@@ -4,19 +4,15 @@ import com.example.personalizedLearningPlatform.entity.CategoryEntity;
 import com.example.personalizedLearningPlatform.entity.UniversityEntity;
 import lombok.AllArgsConstructor;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.support.GeneratedKeyHolder;
-import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 
-import java.sql.PreparedStatement;
-import java.sql.Statement;
 import java.util.List;
-import java.util.Map;
 
 @Repository
 @AllArgsConstructor
 public class UniversityCategoryRepository {
     private final JdbcTemplate jdbcTemplate;
+
     public void saveUniCat(Integer universityId, Integer categoryId) {
         String insertUniversityCategoryQuery = "INSERT INTO university_category (university_id, category_id) VALUES (?, ?)";
         jdbcTemplate.update(insertUniversityCategoryQuery, universityId, categoryId);

@@ -3,9 +3,7 @@ package com.example.personalizedLearningPlatform.repo;
 
 import com.example.personalizedLearningPlatform.entity.CategoryEntity;
 import com.example.personalizedLearningPlatform.entity.UniversityEntity;
-import com.example.personalizedLearningPlatform.entity.UserEntity;
 import com.example.personalizedLearningPlatform.repo.rowMapper.CategoryMapper;
-import org.apache.ibatis.annotations.Mapper;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.PreparedStatementCreator;
@@ -18,6 +16,7 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.Optional;
+
 @Repository
 public class CategoryRepository {
 
@@ -58,6 +57,7 @@ public class CategoryRepository {
         );
         return categories.isEmpty() ? Optional.empty() : Optional.of(categories.get(0));
     }
+
     public CategoryEntity findByName(String name) {
 
         String query = "SELECT * FROM category_entity WHERE name = ?";
@@ -80,6 +80,7 @@ public class CategoryRepository {
                 universityId
         );
     }
+
     public List<UniversityEntity> getUniversitiesByCategory(Integer categoryId) {
         String query = "SELECT u.* FROM university_entity u " +
                 "JOIN university_category uc ON u.id = uc.university_id " +

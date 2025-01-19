@@ -1,15 +1,11 @@
 package com.example.personalizedLearningPlatform.repo;
 
 
-import com.example.personalizedLearningPlatform.entity.UniversityEntity;
 import com.example.personalizedLearningPlatform.entity.CategoryEntity;
-import com.example.personalizedLearningPlatform.entity.UserEntity;
+import com.example.personalizedLearningPlatform.entity.UniversityEntity;
 import com.example.personalizedLearningPlatform.repo.rowMapper.CategoryMapper;
 import com.example.personalizedLearningPlatform.repo.rowMapper.UniversityMapper;
-import com.example.personalizedLearningPlatform.sqlMethods.SQLMethod;
 import lombok.AllArgsConstructor;
-import org.apache.ibatis.annotations.Mapper;
-import org.springframework.data.relational.core.sql.In;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.PreparedStatementCreator;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
@@ -111,7 +107,6 @@ public class UniversityRepository {
     }
 
 
-
     public int update(UniversityEntity university) {
         String updateQuery = "UPDATE university_entity SET name = ?, location = ?, website = ?, rank = ?, admission_requirements = ? WHERE id = ?";
         return jdbcTemplate.update(updateQuery,
@@ -129,6 +124,6 @@ public class UniversityRepository {
 
     public List<CategoryEntity> getCategoriesByUniversityId(Integer universityId) {
         String sql = "SELECT c.* FROM category_entity c JOIN university_category uc ON c.id = uc.category_id WHERE uc.university_id = ?";
-        return jdbcTemplate.query(sql,categoryMapper, universityId);
+        return jdbcTemplate.query(sql, categoryMapper, universityId);
     }
 }

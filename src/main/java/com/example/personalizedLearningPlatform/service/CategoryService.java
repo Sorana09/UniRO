@@ -4,8 +4,6 @@ import com.example.personalizedLearningPlatform.entity.CategoryEntity;
 import com.example.personalizedLearningPlatform.entity.UniversityEntity;
 import com.example.personalizedLearningPlatform.repo.CategoryRepository;
 import lombok.AllArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.relational.core.sql.In;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -21,9 +19,10 @@ public class CategoryService {
     public CategoryEntity createOrUpdateCategory(CategoryEntity categoryEntity) {
         return categoryRepository.save(categoryEntity);
     }
-public List<CategoryEntity> findByUniversityId(Integer universityId) {
+
+    public List<CategoryEntity> findByUniversityId(Integer universityId) {
         return categoryRepository.findByUniversityId(universityId);
-}
+    }
 
     public List<CategoryEntity> getAllCategories() {
         return categoryRepository.findAll();

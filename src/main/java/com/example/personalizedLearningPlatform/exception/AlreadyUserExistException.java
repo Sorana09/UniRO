@@ -5,7 +5,7 @@ import org.springframework.http.HttpStatus;
 
 public class AlreadyUserExistException extends EntityException {
 
-        public AlreadyUserExistException() {
-            super(HttpStatus.NOT_FOUND, "Entity already exists");
-        }
+    public AlreadyUserExistException() {
+        super(HttpStatus.NOT_FOUND, "Entity already exists");
+    }
 }

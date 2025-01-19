@@ -6,8 +6,6 @@ import com.example.personalizedLearningPlatform.exception.EntityNotFoundExceptio
 import com.example.personalizedLearningPlatform.repo.UserRepository;
 import com.example.personalizedLearningPlatform.service.UserService;
 import lombok.RequiredArgsConstructor;
-import org.apache.coyote.Response;
-import org.springframework.data.relational.core.sql.In;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -36,9 +34,9 @@ public class UserController {
 
     @GetMapping("/emails/{email}")
     public ResponseEntity<UserDto> getUserByEmail(@PathVariable(name = "email") String email) {
-       return userService.findByEmail(email)
-               .map(userEntity -> ResponseEntity.ok(mapper(userEntity)))
-               .orElse(ResponseEntity.notFound().build());
+        return userService.findByEmail(email)
+                .map(userEntity -> ResponseEntity.ok(mapper(userEntity)))
+                .orElse(ResponseEntity.notFound().build());
     }
 
     @GetMapping
@@ -48,14 +46,14 @@ public class UserController {
         List<UserDto> userDtos = users.stream()
                 .map(it -> mapper(it))
                 .collect(Collectors.toList());
-        if(userDtos.size() > 0)
+        if (userDtos.size() > 0)
             return ResponseEntity.ok(userDtos);
         else return ResponseEntity.noContent().build();
     }
 
     @PostMapping("/signup")
     public ResponseEntity<UserDto> signup(@RequestBody UserEntity user) {
-       return ResponseEntity.ok(mapper(userService.save(user)));
+        return ResponseEntity.ok(mapper(userService.save(user)));
     }
 
 //    @PutMapping("/resetPass/{email}")

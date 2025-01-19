@@ -1,9 +1,7 @@
 package com.example.personalizedLearningPlatform.repo;
 
 import com.example.personalizedLearningPlatform.entity.UniversityEntity;
-import com.example.personalizedLearningPlatform.entity.UserEntity;
 import com.example.personalizedLearningPlatform.repo.rowMapper.UniversityMapper;
-import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
@@ -37,7 +35,8 @@ public class UniversityRepoExtract {
         );
 
     }
-    public Optional<UniversityEntity> findByName (String name) {
+
+    public Optional<UniversityEntity> findByName(String name) {
         List<UniversityEntity> univ = jdbcTemplate.query(
                 "SELECT * FROM university_entity WHERE name = ?",
                 universityMapper,

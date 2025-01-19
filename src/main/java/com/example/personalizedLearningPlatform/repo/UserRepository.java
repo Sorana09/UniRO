@@ -1,10 +1,7 @@
 package com.example.personalizedLearningPlatform.repo;
 
 import com.example.personalizedLearningPlatform.entity.UserEntity;
-
 import com.example.personalizedLearningPlatform.repo.rowMapper.UserMapper;
-import org.apache.ibatis.annotations.Mapper;
-import org.springframework.data.relational.core.sql.In;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;

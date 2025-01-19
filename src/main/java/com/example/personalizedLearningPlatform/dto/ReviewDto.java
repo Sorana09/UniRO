@@ -5,11 +5,17 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.OffsetDateTime;
+
 @Data
+@AllArgsConstructor
 @Builder
 @NoArgsConstructor
-@AllArgsConstructor
-public class CategoryDto {
+public class ReviewDto {
+
     private Integer id;
-    private String name;
+    private String message;
+    private Integer userId;
+    private Integer universityId;
+    private OffsetDateTime wroteAt;
 }

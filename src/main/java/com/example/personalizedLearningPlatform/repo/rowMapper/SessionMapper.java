@@ -1,11 +1,9 @@
 package com.example.personalizedLearningPlatform.repo.rowMapper;
 
 import com.example.personalizedLearningPlatform.entity.SessionEntity;
-import com.example.personalizedLearningPlatform.entity.UserEntity;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Component;
 
-import javax.swing.tree.TreePath;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.OffsetDateTime;

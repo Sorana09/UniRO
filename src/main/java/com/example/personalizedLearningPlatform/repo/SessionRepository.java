@@ -9,7 +9,6 @@ import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 
 import java.sql.PreparedStatement;
-import java.time.OffsetDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -20,12 +19,12 @@ public class SessionRepository {
     private final JdbcTemplate jdbcTemplate;
     private final SessionMapper sessionMapper;
 
-    public List<SessionEntity> find(Integer userId){
+    public List<SessionEntity> find(Integer userId) {
         List<SessionEntity> sessionEntities = jdbcTemplate.query("select * from sessions where user_id=?", new Object[]{userId}, new SessionMapper());
         return sessionEntities;
     }
 
-    public void insert(SessionEntity sessionEntity){
+    public void insert(SessionEntity sessionEntity) {
         KeyHolder keyHolder = new GeneratedKeyHolder();
 
         jdbcTemplate.update(connection -> {
@@ -43,12 +42,12 @@ public class SessionRepository {
         sessionEntity.setId(keyHolder.getKey().intValue());
     }
 
-    public Optional<SessionEntity> getByKey(String key){
-       List<SessionEntity> sessionEntity = jdbcTemplate.query("SELECT * FROM sessions where session_key=? ", sessionMapper,key);
-       return sessionEntity.isEmpty() ? Optional.empty() : Optional.of(sessionEntity.get(0));
+    public Optional<SessionEntity> getByKey(String key) {
+        List<SessionEntity> sessionEntity = jdbcTemplate.query("SELECT * FROM sessions where session_key=? ", sessionMapper, key);
+        return sessionEntity.isEmpty() ? Optional.empty() : Optional.of(sessionEntity.get(0));
     }
 
-    public void deleteByKey(String key){
-        jdbcTemplate.update("DELETE FROM sessions where session_key=?",key);
+    public void deleteByKey(String key) {
+        jdbcTemplate.update("DELETE FROM sessions where session_key=?", key);
     }
 }

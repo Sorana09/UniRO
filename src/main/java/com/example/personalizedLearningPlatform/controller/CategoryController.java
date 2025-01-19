@@ -5,7 +5,6 @@ import com.example.personalizedLearningPlatform.entity.CategoryEntity;
 import com.example.personalizedLearningPlatform.entity.UniversityEntity;
 import com.example.personalizedLearningPlatform.service.CategoryService;
 import lombok.AllArgsConstructor;
-import org.springframework.data.relational.core.sql.In;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -34,6 +33,7 @@ public class CategoryController {
         Optional<CategoryEntity> category = categoryService.getCategoryById(id);
         return category.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.status(HttpStatus.NOT_FOUND).build());
     }
+
     @GetMapping("/uni/{id}")
     public List<CategoryDto> getCategoryByUniversityId(@PathVariable Integer id) {
         List<CategoryEntity> category = categoryService.findByUniversityId(id);

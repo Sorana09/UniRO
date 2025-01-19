@@ -3,14 +3,9 @@ package com.example.personalizedLearningPlatform.service;
 import com.example.personalizedLearningPlatform.entity.CategoryEntity;
 import com.example.personalizedLearningPlatform.entity.UniversityEntity;
 import com.example.personalizedLearningPlatform.repo.UniversityCategoryRepository;
-import com.example.personalizedLearningPlatform.repo.UniversityRepository;
-import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.util.List;
 import java.util.Map;
 
@@ -18,7 +13,7 @@ import java.util.Map;
 @RequiredArgsConstructor
 public class UniversityCategoryService {
 
-   private final UniversityCategoryRepository universityRepository;
+    private final UniversityCategoryRepository universityRepository;
 
     public void saveUniversitiesWithCategories(List<UniversityEntity> universities,
                                                Map<String, List<CategoryEntity>> universityCategoryMap) {

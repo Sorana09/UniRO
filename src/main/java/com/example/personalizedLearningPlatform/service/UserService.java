@@ -1,14 +1,11 @@
 package com.example.personalizedLearningPlatform.service;
 
 import com.example.personalizedLearningPlatform.entity.UserEntity;
-import com.example.personalizedLearningPlatform.exception.AlreadyUserExistException;
-import com.example.personalizedLearningPlatform.exception.EntityNotFoundException;
 import com.example.personalizedLearningPlatform.repo.UserRepository;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
-import java.rmi.AlreadyBoundException;
 import java.util.List;
 import java.util.Optional;
 
@@ -42,8 +39,9 @@ public class UserService {
 
     public boolean verifyPassword(Integer Id, String password) {
         Optional<UserEntity> user = userRepository.findById(Id);
-        return user.map(it ->it.getHashedPassword().equals(getMD5(password))).orElse(false);
+        return user.map(it -> it.getHashedPassword().equals(getMD5(password))).orElse(false);
     }
+
     public void deleteById(Long id) {
         userRepository.deleteById(id);
     }
@@ -55,7 +53,7 @@ public class UserService {
 //        }
         user.setHashedPassword(getMD5(user.getHashedPassword()));
         userRepository.save(user);
-        log.info("creating entity {}",user);
+        log.info("creating entity {}", user);
         return user;
     }
 

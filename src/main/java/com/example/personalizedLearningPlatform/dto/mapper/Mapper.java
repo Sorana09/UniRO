@@ -1,17 +1,9 @@
 package com.example.personalizedLearningPlatform.dto.mapper;
 
-import com.example.personalizedLearningPlatform.dto.CategoryDto;
-import com.example.personalizedLearningPlatform.dto.SessionDto;
-import com.example.personalizedLearningPlatform.dto.UniversityDto;
-import com.example.personalizedLearningPlatform.dto.UserDto;
+import com.example.personalizedLearningPlatform.dto.*;
 import com.example.personalizedLearningPlatform.dto.enums.AdmmisionRequirementsDto;
-import com.example.personalizedLearningPlatform.entity.CategoryEntity;
-import com.example.personalizedLearningPlatform.entity.SessionEntity;
-import com.example.personalizedLearningPlatform.entity.UniversityEntity;
-import com.example.personalizedLearningPlatform.entity.UserEntity;
-import com.example.personalizedLearningPlatform.repo.rowMapper.CategoryMapper;
+import com.example.personalizedLearningPlatform.entity.*;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -38,7 +30,7 @@ public class Mapper {
         List<CategoryDto> categoryDtos = null;
         if (universityEntity.getCategoryEntities() != null) {
             categoryDtos = universityEntity.getCategoryEntities().stream()
-                    .map(it-> mapper(it))
+                    .map(it -> mapper(it))
                     .collect(Collectors.toList());
         }
         return UniversityDto.builder()
@@ -63,7 +55,7 @@ public class Mapper {
     }
 
     public static SessionDto mapper(SessionEntity sessionEntity) {
-        if(sessionEntity == null) {
+        if (sessionEntity == null) {
             return null;
         }
         return SessionDto.builder()
@@ -71,6 +63,19 @@ public class Mapper {
                 .sessionKey(sessionEntity.getSessionKey())
                 .userId(sessionEntity.getUserId())
                 .id(sessionEntity.getId())
+                .build();
+    }
+
+    public static ReviewDto mapper(ReviewEntity reviewEntity) {
+        if(reviewEntity == null) {
+            return null;
+        }
+        return ReviewDto.builder()
+                .id(reviewEntity.getId())
+                .message(reviewEntity.getMessage())
+                .universityId(reviewEntity.getUniversityId())
+                .userId(reviewEntity.getUserId())
+                .wroteAt(reviewEntity.getWroteAt())
                 .build();
     }
 }
