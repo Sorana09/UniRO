@@ -11,7 +11,8 @@ CREATE TABLE user_entity (
                              email VARCHAR(255) NOT NULL UNIQUE,
                              first_name VARCHAR(255) NOT NULL,
                              last_name VARCHAR(255) NOT NULL,
-                             hashed_password VARCHAR(255) NOT NULL
+                             hashed_password VARCHAR(255) NOT NULL,
+                             is_admin BOOLEAN DEFAULT FALSE NOT NULL
 );
 
 CREATE TABLE university_entity (

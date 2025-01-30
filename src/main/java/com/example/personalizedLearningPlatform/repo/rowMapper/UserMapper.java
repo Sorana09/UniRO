@@ -18,6 +18,7 @@ public class UserMapper implements RowMapper<UserEntity> {
         userEntity.setFirstName(rs.getString("first_name"));
         userEntity.setLastName(rs.getString("last_name"));
         userEntity.setHashedPassword(rs.getString("hashed_password"));
+        userEntity.setIsAdmin(rs.getBoolean("is_admin"));
 
         return userEntity;
     }

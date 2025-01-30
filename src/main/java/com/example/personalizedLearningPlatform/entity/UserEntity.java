@@ -18,6 +18,7 @@ public class UserEntity {
     private String firstName;
     private String lastName;
     private String hashedPassword;
+    private Boolean isAdmin;
 
 }
 

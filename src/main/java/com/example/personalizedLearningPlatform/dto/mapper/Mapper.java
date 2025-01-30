@@ -19,6 +19,7 @@ public class Mapper {
                 .last_name(userEntity.getLastName())
                 .email(userEntity.getEmail())
                 .hashed_password(userEntity.getHashedPassword())
+                .is_admin(userEntity.getIsAdmin())
                 .build();
 
     }

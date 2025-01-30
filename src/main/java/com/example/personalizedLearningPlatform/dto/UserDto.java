@@ -16,5 +16,6 @@ public class UserDto {
     private String last_name;
     private String email;
     private String hashed_password;
+    private Boolean is_admin;
 
 }
