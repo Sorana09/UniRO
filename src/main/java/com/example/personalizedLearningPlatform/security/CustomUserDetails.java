@@ -11,9 +11,11 @@ import java.util.List;
 
 public class CustomUserDetails implements UserDetails {
     private final UserEntity user;
+
     public CustomUserDetails(UserEntity user) {
         this.user = user;
     }
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         List<SimpleGrantedAuthority> authorities = new ArrayList<>();

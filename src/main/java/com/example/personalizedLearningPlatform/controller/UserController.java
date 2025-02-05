@@ -55,7 +55,6 @@ public class UserController {
 
     @PostMapping("/signup")
     public ResponseEntity<UserDto> signup(@RequestBody UserEntity user) {
-        log.info("succ register user: {}", user);
         return ResponseEntity.ok(mapper(userService.save(user)));
     }
 

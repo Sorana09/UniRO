@@ -43,7 +43,7 @@ public class UserService {
     }
 
     public UserEntity save(UserEntity user) {
-        if(findByEmail(user.getEmail()).isPresent()) {
+        if (findByEmail(user.getEmail()).isPresent()) {
             throw new AlreadyUserExistException();
         }
         user.setHashedPassword(passwordEncoder.encode(user.getHashedPassword()));

@@ -68,7 +68,7 @@ public class Mapper {
     }
 
     public static ReviewDto mapper(ReviewEntity reviewEntity) {
-        if(reviewEntity == null) {
+        if (reviewEntity == null) {
             return null;
         }
         return ReviewDto.builder()

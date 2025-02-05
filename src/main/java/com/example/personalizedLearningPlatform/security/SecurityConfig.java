@@ -18,13 +18,14 @@ import org.springframework.security.web.authentication.logout.LogoutFilter;
 @RequiredArgsConstructor
 public class SecurityConfig {
     private final CustomLogoutFilter customLogoutFilter;
+
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 
         http
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/login","/sessions/**", "/users/**","/universities/**","/reviews/**").permitAll()
+                        .requestMatchers("/login", "/sessions/**", "/users/**", "/universities/**", "/reviews/**").permitAll()
                         .requestMatchers("/admin/**").hasRole("ADMIN")
                         .anyRequest().authenticated()
                 )
@@ -46,6 +47,7 @@ public class SecurityConfig {
                 );
         return http.build();
     }
+
     @Bean
     public AuthenticationManager authManager(HttpSecurity http, CustomUserDetailsService userDetailsService)
             throws Exception {

@@ -1,7 +1,6 @@
 package com.example.personalizedLearningPlatform.repo.rowMapper;
 
 import com.example.personalizedLearningPlatform.entity.ReviewEntity;
-import com.example.personalizedLearningPlatform.entity.SessionEntity;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Component;
 
