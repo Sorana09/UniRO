@@ -5,6 +5,7 @@ import com.example.personalizedLearningPlatform.exception.AlreadyUserExistExcept
 import com.example.personalizedLearningPlatform.repo.UserRepository;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -18,6 +19,7 @@ import static com.example.personalizedLearningPlatform.crypt.MD5.getMD5;
 public class UserService {
 
     private final UserRepository userRepository;
+    private final PasswordEncoder passwordEncoder;
 
     public List<UserEntity> findAll() {
         return userRepository.findAll();
@@ -44,7 +46,7 @@ public class UserService {
         if(findByEmail(user.getEmail()).isPresent()) {
             throw new AlreadyUserExistException();
         }
-        user.setHashedPassword(getMD5(user.getHashedPassword()));
+        user.setHashedPassword(passwordEncoder.encode(user.getHashedPassword()));
         user.setIsAdmin(Boolean.FALSE);
         userRepository.save(user);
         log.info("creating entity {}", user);

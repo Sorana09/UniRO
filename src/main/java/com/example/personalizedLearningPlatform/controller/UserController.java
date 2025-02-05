@@ -6,6 +6,7 @@ import com.example.personalizedLearningPlatform.exception.EntityNotFoundExceptio
 import com.example.personalizedLearningPlatform.repo.UserRepository;
 import com.example.personalizedLearningPlatform.service.UserService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -18,6 +19,7 @@ import static com.example.personalizedLearningPlatform.dto.mapper.Mapper.mapper;
 @RestController
 @RequestMapping("/users")
 @RequiredArgsConstructor
+@Slf4j
 public class UserController {
 
     private final UserService userService;
@@ -53,19 +55,9 @@ public class UserController {
 
     @PostMapping("/signup")
     public ResponseEntity<UserDto> signup(@RequestBody UserEntity user) {
+        log.info("succ register user: {}", user);
         return ResponseEntity.ok(mapper(userService.save(user)));
     }
-
-//    @PutMapping("/resetPass/{email}")
-//    public ResponseEntity<String> resetPassword(@PathVariable String email,
-//                                                @RequestBody ChangePasswordRequest changePasswordRequest) {
-//        try {
-//            userService.changePassword(email, changePasswordRequest.getPassword());
-//            return ResponseEntity.ok("Password changed successfully.");
-//        } catch (EntityNotFoundException e) {
-//            return ResponseEntity.status(404).body("User with email " + email + " not found.");
-//        }
-//    }
 
     @PutMapping("/{id}")
     public ResponseEntity<UserDto> updateUser(@PathVariable Integer id, @RequestBody UserEntity user) {

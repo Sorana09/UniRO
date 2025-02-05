@@ -58,6 +58,14 @@ public class UserRepository {
         );
         return users.isEmpty() ? Optional.empty() : Optional.of(users.get(0));
     }
+    public Optional<UserEntity> findByFirstName(String name) {
+        List<UserEntity> users = jdbcTemplate.query(
+                "SELECT * FROM user_entity WHERE first_name = ?",
+                userMapper,
+                name
+        );
+        return users.isEmpty() ? Optional.empty() : Optional.of(users.get(0));
+    }
 
     public List<UserEntity> findAll() {
         return jdbcTemplate.query("SELECT * FROM user_entity", userMapper);
