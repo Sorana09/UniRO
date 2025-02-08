@@ -1,6 +1,10 @@
 DROP TABLE IF EXISTS university_entity CASCADE;
 DROP TABLE IF EXISTS category_entity CASCADE;
 DROP TABLE IF EXISTS university_category CASCADE;
+DROP TABLE IF EXISTS language_entity CASCADE;
+DROP TABLE IF EXISTS study_program_entity CASCADE;
+DROP TABLE IF EXISTS category_language CASCADE;
+DROP TABLE IF EXISTS category_study_program CASCADE;
 
 DROP TABLE IF EXISTS user_entity CASCADE;
 DROP TABLE IF EXISTS sessions CASCADE;
@@ -27,6 +31,24 @@ CREATE TABLE university_entity (
 CREATE TABLE category_entity (
                                  id SERIAL PRIMARY KEY,
                                  name VARCHAR(1000) NOT NULL
+);
+CREATE TABLE language_entity(
+                                id SERIAL PRIMARY KEY,
+                                name VARCHAR(1000) NOT NULL
+);
+CREATE TABLE study_program_entity(
+                            id SERIAL PRIMARY KEY ,
+                            name VARCHAR(1000) NOT NULL
+);
+CREATE TABLE category_language(
+                    category_id INT REFERENCES category_entity(id) ON DELETE CASCADE,
+                    language_id INT REFERENCES language_entity(id) ON DELETE CASCADE,
+                    PRIMARY KEY (category_id,language_id)
+);
+CREATE TABLE category_study_program(
+                    category_id INT REFERENCES category_entity(id) ON DELETE CASCADE,
+                    study_program_id INT REFERENCES study_program_entity(id) ON DELETE CASCADE,
+                    PRIMARY KEY (category_id, study_program_id)
 );
 CREATE TABLE university_category (
                                      university_id INT NOT NULL,

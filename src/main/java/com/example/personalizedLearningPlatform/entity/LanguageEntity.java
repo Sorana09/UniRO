@@ -1,17 +1,15 @@
-package com.example.personalizedLearningPlatform.dto;
+package com.example.personalizedLearningPlatform.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.List;
-
+@AllArgsConstructor
 @Data
 @Builder
 @NoArgsConstructor
-@AllArgsConstructor
-public class CategoryDto {
+public class LanguageEntity {
     private Integer id;
     private String name;
 }

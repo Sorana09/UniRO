@@ -79,4 +79,23 @@ public class Mapper {
                 .wroteAt(reviewEntity.getWroteAt())
                 .build();
     }
+
+    public static LanguageDto mapper(LanguageEntity languageEntity) {
+        if (languageEntity == null) {
+            return null;
+        }
+        return LanguageDto.builder()
+                .id(languageEntity.getId())
+                .name(languageEntity.getName())
+                .build();
+    }
+    public static StudyProgramDto mapper(StudyProgramEntity studyProgramEntity) {
+        if (studyProgramEntity == null) {
+            return null;
+        }
+        return StudyProgramDto.builder()
+                .id(studyProgramEntity.getId())
+                .name(studyProgramEntity.getName())
+                .build();
+    }
 }
