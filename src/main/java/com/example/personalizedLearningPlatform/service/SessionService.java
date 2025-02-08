@@ -5,7 +5,7 @@ import com.example.personalizedLearningPlatform.entity.SessionEntity;
 import com.example.personalizedLearningPlatform.entity.UserEntity;
 import com.example.personalizedLearningPlatform.exception.EntityNotFoundException;
 import com.example.personalizedLearningPlatform.exception.TooManySeesionException;
-import com.example.personalizedLearningPlatform.repo.SessionRepository;
+import com.example.personalizedLearningPlatform.repo.userRepositories.SessionRepository;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;

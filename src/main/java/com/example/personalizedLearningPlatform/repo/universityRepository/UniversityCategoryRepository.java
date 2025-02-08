@@ -1,4 +1,4 @@
-package com.example.personalizedLearningPlatform.repo;
+package com.example.personalizedLearningPlatform.repo.universityRepository;
 
 import com.example.personalizedLearningPlatform.entity.CategoryEntity;
 import com.example.personalizedLearningPlatform.entity.UniversityEntity;

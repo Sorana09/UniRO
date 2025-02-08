@@ -1,7 +1,7 @@
 package com.example.personalizedLearningPlatform.service;
 
 import com.example.personalizedLearningPlatform.entity.ReviewEntity;
-import com.example.personalizedLearningPlatform.repo.ReviewRepository;
+import com.example.personalizedLearningPlatform.repo.userRepositories.ReviewRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 

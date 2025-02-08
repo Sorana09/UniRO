@@ -1,7 +1,7 @@
 package com.example.personalizedLearningPlatform.security;
 
 import com.example.personalizedLearningPlatform.entity.UserEntity;
-import com.example.personalizedLearningPlatform.repo.UserRepository;
+import com.example.personalizedLearningPlatform.repo.userRepositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;

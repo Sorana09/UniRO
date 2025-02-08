@@ -1,8 +1,7 @@
-package com.example.personalizedLearningPlatform.repo;
+package com.example.personalizedLearningPlatform.repo.categoryRepositories;
 
 import com.example.personalizedLearningPlatform.entity.CategoryEntity;
 import com.example.personalizedLearningPlatform.entity.StudyProgramEntity;
-import com.example.personalizedLearningPlatform.entity.UniversityEntity;
 import com.example.personalizedLearningPlatform.repo.rowMapper.CategoryMapper;
 import com.example.personalizedLearningPlatform.repo.rowMapper.StudyProgramMapper;
 import lombok.AllArgsConstructor;

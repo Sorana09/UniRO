@@ -2,7 +2,7 @@ package com.example.personalizedLearningPlatform.service;
 
 import com.example.personalizedLearningPlatform.entity.UserEntity;
 import com.example.personalizedLearningPlatform.exception.AlreadyUserExistException;
-import com.example.personalizedLearningPlatform.repo.UserRepository;
+import com.example.personalizedLearningPlatform.repo.userRepositories.UserRepository;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.password.PasswordEncoder;
