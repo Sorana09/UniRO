@@ -4,6 +4,7 @@ package com.example.personalizedLearningPlatform.repo;
 import com.example.personalizedLearningPlatform.entity.CategoryEntity;
 import com.example.personalizedLearningPlatform.entity.UniversityEntity;
 import com.example.personalizedLearningPlatform.repo.rowMapper.CategoryMapper;
+import lombok.AllArgsConstructor;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.PreparedStatementCreator;
@@ -18,15 +19,11 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
+@AllArgsConstructor
 public class CategoryRepository {
 
     private final JdbcTemplate jdbcTemplate;
     private final CategoryMapper categoryMapper;
-
-    public CategoryRepository(JdbcTemplate jdbcTemplate, CategoryMapper categoryMapper) {
-        this.jdbcTemplate = jdbcTemplate;
-        this.categoryMapper = categoryMapper;
-    }
 
     public CategoryEntity save(CategoryEntity category) {
 
