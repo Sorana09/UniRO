@@ -29,11 +29,11 @@ public class CategoryStudyProgramRepository {
         }
 
         jdbcTemplate.update("INSERT INTO category_entity (name) VALUE (?)",
-                categoryEntity.getName(),
+                categoryEntity.getName());
 
                 ids = jdbcTemplate.query(selectQuery,
                         new Object[]{categoryEntity.getName()},
-                        (rs, rowNum) -> rs.getInt("id")));
+                        (rs, rowNum) -> rs.getInt("id"));
 
         if (!ids.isEmpty()) {
             return ids.get(0);
