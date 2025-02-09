@@ -2,6 +2,7 @@ package com.example.personalizedLearningPlatform.dto.mapper;
 
 import com.example.personalizedLearningPlatform.entity.CategoryEntity;
 import com.example.personalizedLearningPlatform.entity.LanguageEntity;
+import com.example.personalizedLearningPlatform.entity.StudyProgramEntity;
 import com.example.personalizedLearningPlatform.entity.UniversityEntity;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
@@ -133,7 +134,40 @@ public class ExcelToEntityMapper {
 
         return categoryLanguageMap;
     }
+    public Map<String, List<StudyProgramEntity>> readCategoryStudyDomainSheet(String filePath) {
+        Map<String, List<StudyProgramEntity>> categoryStudyDomainMap = new HashMap<>();
 
+        try (FileInputStream fis = new FileInputStream(filePath);
+             Workbook workbook = new XSSFWorkbook(fis)) {
+
+            Sheet sheet = workbook.getSheet("Programe-Studiu");
+            if (sheet == null) {
+                throw new RuntimeException("Sheet 'Programe-Studiu' not found in the Excel file.");
+            }
+
+            boolean isHeader = true;
+            for (Row row : sheet) {
+                if (isHeader) {
+                    isHeader = false;
+                    continue;
+                }
+
+                String categoryName = getStringValue(row.getCell(3));
+                String studyDomain = getStringValue(row.getCell(9));
+
+                if (!categoryName.isEmpty() && !studyDomain.isEmpty()) {
+                    categoryStudyDomainMap.computeIfAbsent(categoryName, k -> new ArrayList<>())
+                            .add(StudyProgramEntity.builder().name(studyDomain).build());
+                }
+            }
+
+        } catch (Exception e) {
+            System.err.println("Failed to read Excel file: " + e.getMessage());
+            throw new RuntimeException("Failed to read Excel file", e);
+        }
+
+        return categoryStudyDomainMap;
+    }
 
     private Integer getIntegerValue(Cell cell) {
         if (cell == null) {
