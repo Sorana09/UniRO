@@ -1,6 +1,7 @@
 package com.example.personalizedLearningPlatform.dto.mapper;
 
 import com.example.personalizedLearningPlatform.entity.CategoryEntity;
+import com.example.personalizedLearningPlatform.entity.LanguageEntity;
 import com.example.personalizedLearningPlatform.entity.UniversityEntity;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
@@ -11,7 +12,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class ExcelToUniversityMapper {
+public class ExcelToEntityMapper {
 
     public List<UniversityEntity> readExcelFile(String filePath) {
         List<UniversityEntity> universities = new ArrayList<>();
@@ -96,6 +97,43 @@ public class ExcelToUniversityMapper {
 
         return universityCategoryMap;
     }
+
+    public Map<String, List<LanguageEntity>> readCategoryLanguagesSheet(String filePath) {
+        Map<String, List<LanguageEntity>> categoryLanguageMap = new HashMap<>();
+
+        try (FileInputStream fis = new FileInputStream(filePath);
+             Workbook workbook = new XSSFWorkbook(fis)) {
+
+            Sheet sheet = workbook.getSheet("Programe-Studiu");
+
+            if (sheet == null) {
+                throw new RuntimeException("Sheet 'Programe-Studiu' not found in the Excel file.");
+            }
+
+            boolean isHeader = true;
+            for (Row row : sheet) {
+                if (isHeader) {
+                    isHeader = false;
+                    continue;
+                }
+
+                String languageNames = getStringValue(row.getCell(19));
+                String categoryName = getStringValue(row.getCell(3));
+
+                if (!categoryName.isEmpty() && !languageNames.isEmpty()) {
+                    categoryLanguageMap.computeIfAbsent(categoryName, k -> new ArrayList<>())
+                            .add(LanguageEntity.builder().name(languageNames).build());
+                }
+            }
+
+        } catch (Exception e) {
+            System.err.println("Failed to read Excel file: " + e.getMessage());
+            throw new RuntimeException("Failed to read Excel file", e);
+        }
+
+        return categoryLanguageMap;
+    }
+
 
     private Integer getIntegerValue(Cell cell) {
         if (cell == null) {

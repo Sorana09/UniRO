@@ -1,7 +1,6 @@
-package com.example.personalizedLearningPlatform.repo.categoryRepositories;
+package com.example.personalizedLearningPlatform.repo;
 
 import com.example.personalizedLearningPlatform.entity.CategoryEntity;
-import com.example.personalizedLearningPlatform.entity.LanguageEntity;
 import com.example.personalizedLearningPlatform.entity.StudyProgramEntity;
 import lombok.AllArgsConstructor;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -29,9 +28,7 @@ public class CategoryStudyProgramRepository {
             return ids.get(0);
         }
 
-        String insertQuery = "INSERT INTO category_entity (name) " +
-                "VALUES (?, ?, ?, ?, ?)";
-        jdbcTemplate.update(insertQuery,
+        jdbcTemplate.update("INSERT INTO category_entity (name) VALUE (?)",
                 categoryEntity.getName(),
 
                 ids = jdbcTemplate.query(selectQuery,

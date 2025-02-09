@@ -1,4 +1,4 @@
-package com.example.personalizedLearningPlatform.repo.categoryRepositories;
+package com.example.personalizedLearningPlatform.repo;
 
 import com.example.personalizedLearningPlatform.entity.CategoryEntity;
 import com.example.personalizedLearningPlatform.entity.LanguageEntity;
@@ -70,11 +70,11 @@ public class LanguageRepository {
         return jdbcTemplate.query("SELECT * FROM language_entity", languageMapper);
     }
 
-    public List<LanguageEntity> findLanguageById(Integer languageId) {
+    public List<LanguageEntity> findByCategoryId(Integer categoryId) {
         return jdbcTemplate.query(
                 "SELECT * FROM language_entity WHERE id = ?",
                 languageMapper,
-                languageId
+                categoryId
         );
     }
 

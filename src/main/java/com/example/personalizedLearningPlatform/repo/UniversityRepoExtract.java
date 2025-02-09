@@ -1,4 +1,4 @@
-package com.example.personalizedLearningPlatform.repo.universityRepository;
+package com.example.personalizedLearningPlatform.repo;
 
 import com.example.personalizedLearningPlatform.entity.UniversityEntity;
 import com.example.personalizedLearningPlatform.repo.rowMapper.UniversityMapper;

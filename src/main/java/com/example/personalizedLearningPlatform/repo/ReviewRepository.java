@@ -1,4 +1,4 @@
-package com.example.personalizedLearningPlatform.repo.userRepositories;
+package com.example.personalizedLearningPlatform.repo;
 
 import com.example.personalizedLearningPlatform.entity.ReviewEntity;
 import com.example.personalizedLearningPlatform.repo.rowMapper.ReviewMapper;

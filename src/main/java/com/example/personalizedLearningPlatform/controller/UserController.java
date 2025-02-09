@@ -3,7 +3,7 @@ package com.example.personalizedLearningPlatform.controller;
 import com.example.personalizedLearningPlatform.dto.UserDto;
 import com.example.personalizedLearningPlatform.entity.UserEntity;
 import com.example.personalizedLearningPlatform.exception.EntityNotFoundException;
-import com.example.personalizedLearningPlatform.repo.userRepositories.UserRepository;
+import com.example.personalizedLearningPlatform.repo.UserRepository;
 import com.example.personalizedLearningPlatform.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

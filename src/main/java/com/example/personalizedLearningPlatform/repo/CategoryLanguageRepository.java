@@ -1,8 +1,7 @@
-package com.example.personalizedLearningPlatform.repo.categoryRepositories;
+package com.example.personalizedLearningPlatform.repo;
 
 import com.example.personalizedLearningPlatform.entity.CategoryEntity;
 import com.example.personalizedLearningPlatform.entity.LanguageEntity;
-import com.example.personalizedLearningPlatform.entity.UniversityEntity;
 import lombok.AllArgsConstructor;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
@@ -19,24 +18,22 @@ public class CategoryLanguageRepository {
     }
 
 
-    public Integer findOrInserCategory(CategoryEntity categoryEntity) {
+    public Integer findOrInserCategory(CategoryEntity category) {
         String selectQuery = "SELECT id FROM category_entity WHERE name = ?";
         List<Integer> ids = jdbcTemplate.query(selectQuery,
-                new Object[]{categoryEntity.getName()},
+                new Object[]{category.getName()},
                 (rs, rowNum) -> rs.getInt("id"));
 
         if (!ids.isEmpty()) {
             return ids.get(0);
         }
 
-        String insertQuery = "INSERT INTO category_entity (name) " +
-                "VALUES (?, ?, ?, ?, ?)";
-        jdbcTemplate.update(insertQuery,
-                categoryEntity.getName(),
+        String insertQuery = "INSERT INTO category_entity (name) VALUES (?)";
+        jdbcTemplate.update(insertQuery, category.getName());
 
         ids = jdbcTemplate.query(selectQuery,
-                new Object[]{categoryEntity.getName()},
-                (rs, rowNum) -> rs.getInt("id")));
+                new Object[]{category.getName()},
+                (rs, rowNum) -> rs.getInt("id"));
 
         if (!ids.isEmpty()) {
             return ids.get(0);

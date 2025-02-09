@@ -2,7 +2,7 @@ package com.example.personalizedLearningPlatform.service;
 
 import com.example.personalizedLearningPlatform.entity.CategoryEntity;
 import com.example.personalizedLearningPlatform.entity.UniversityEntity;
-import com.example.personalizedLearningPlatform.repo.universityRepository.UniversityCategoryRepository;
+import com.example.personalizedLearningPlatform.repo.UniversityCategoryRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

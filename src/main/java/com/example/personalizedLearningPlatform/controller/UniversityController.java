@@ -1,7 +1,7 @@
 package com.example.personalizedLearningPlatform.controller;
 
 import com.example.personalizedLearningPlatform.dto.UniversityDto;
-import com.example.personalizedLearningPlatform.dto.mapper.ExcelToUniversityMapper;
+import com.example.personalizedLearningPlatform.dto.mapper.ExcelToEntityMapper;
 import com.example.personalizedLearningPlatform.entity.CategoryEntity;
 import com.example.personalizedLearningPlatform.entity.UniversityEntity;
 import com.example.personalizedLearningPlatform.service.UniversityCategoryService;
@@ -35,7 +35,7 @@ public class UniversityController {
             File tempFile = File.createTempFile("universities", ".xlsx");
             file.transferTo(tempFile);
 
-            ExcelToUniversityMapper mapper = new ExcelToUniversityMapper();
+            ExcelToEntityMapper mapper = new ExcelToEntityMapper();
             List<UniversityEntity> universities = mapper.readExcelFile(tempFile.getAbsolutePath());
             Map<String, List<CategoryEntity>> categoryEntityMap = mapper.readFacultySheet(tempFile.getAbsolutePath());
             universityCategoryService.saveUniversitiesWithCategories(universities, categoryEntityMap);
