@@ -56,17 +56,17 @@ public class UniversityRepository {
 
     public UniversityEntity save(UniversityEntity universityEntity) {
 
-        String insertQuery = "INSERT INTO university_entity (id, name, location, website, rank, admission_requirements) VALUES (?, ?, ?, ?, ?, ?)";
+        String insertQuery = "INSERT INTO university_entity ( name, location, website, rank, admission_requirements) VALUES ( ?, ?, ?, ?, ?)";
         KeyHolder keyHolder = new GeneratedKeyHolder();
 
         PreparedStatementCreator psc = connection -> {
             PreparedStatement ps = connection.prepareStatement(insertQuery, Statement.RETURN_GENERATED_KEYS);
-            ps.setInt(1, universityEntity.getId());
-            ps.setString(2, universityEntity.getName());
-            ps.setString(3, universityEntity.getLocation());
-            ps.setString(4, universityEntity.getWebsite());
-            ps.setInt(5, universityEntity.getRank());
-            ps.setString(6, universityEntity.getAdmissionRequirements());
+            //ps.setInt(1, universityEntity.getId());
+            ps.setString(1, universityEntity.getName());
+            ps.setString(2, universityEntity.getLocation());
+            ps.setString(3, universityEntity.getWebsite());
+            ps.setInt(4, universityEntity.getRank());
+            ps.setString(5, universityEntity.getAdmissionRequirements());
             return ps;
         };
 

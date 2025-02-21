@@ -1,5 +1,6 @@
 package com.example.personalizedLearningPlatform.service;
 
+import com.example.personalizedLearningPlatform.entity.CategoryEntity;
 import com.example.personalizedLearningPlatform.entity.StudyProgramEntity;
 import com.example.personalizedLearningPlatform.repo.StudyProgramRepository;
 import lombok.AllArgsConstructor;
@@ -23,6 +24,9 @@ public class StudyProgramService {
     }
     public void deleteStudyProgramById(Integer id) {
         studyProgramRepository.deleteById(id);
+    }
+    public List<CategoryEntity> getCategoriesByStudyProgram(Integer studyProgramId) {
+        return studyProgramRepository.getCategoriesByStudyProram(studyProgramId);
     }
 
 }

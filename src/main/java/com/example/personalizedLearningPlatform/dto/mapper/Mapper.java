@@ -41,7 +41,7 @@ public class Mapper {
                 .website(universityEntity.getWebsite())
                 .rank(universityEntity.getRank())
                 .categories(categoryDtos)
-                .admissionRequirements(AdmmisionRequirementsDto.valueOf(universityEntity.getAdmissionRequirements()))
+                .admissionRequirements(universityEntity.getAdmissionRequirements())
                 .build();
     }
 

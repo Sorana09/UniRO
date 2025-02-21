@@ -1,6 +1,7 @@
 package com.example.personalizedLearningPlatform.controller;
 
 import com.example.personalizedLearningPlatform.dto.LanguageDto;
+import com.example.personalizedLearningPlatform.entity.CategoryEntity;
 import com.example.personalizedLearningPlatform.entity.LanguageEntity;
 import com.example.personalizedLearningPlatform.service.LanguageService;
 import lombok.AllArgsConstructor;
@@ -32,6 +33,10 @@ public class LanguageCotroller {
             return ResponseEntity.notFound().build();
         }
         return ResponseEntity.ok(mapper(languageService.getById(id).get()));
+    }
+    @GetMapping("/{id}/cat")
+    public List<CategoryEntity> getCategoriesByStudyProgramId(@PathVariable Integer id) {
+        return languageService.getCategoriesByLanguageId(id);
     }
     @PostMapping
     public ResponseEntity<LanguageDto> createLanguage(@RequestBody LanguageEntity languageEntity) {

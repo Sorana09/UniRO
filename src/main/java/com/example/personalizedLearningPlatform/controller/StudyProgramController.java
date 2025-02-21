@@ -2,6 +2,7 @@ package com.example.personalizedLearningPlatform.controller;
 
 import com.example.personalizedLearningPlatform.dto.LanguageDto;
 import com.example.personalizedLearningPlatform.dto.StudyProgramDto;
+import com.example.personalizedLearningPlatform.entity.CategoryEntity;
 import com.example.personalizedLearningPlatform.entity.LanguageEntity;
 import com.example.personalizedLearningPlatform.entity.StudyProgramEntity;
 import com.example.personalizedLearningPlatform.service.StudyProgramService;
@@ -23,6 +24,11 @@ public class StudyProgramController {
     @GetMapping
     public List<StudyProgramEntity> getAllStudyPrograms() {
         return studyProgramService.getAllStudyPrograms();
+    }
+
+    @GetMapping("/{id}/cat")
+    public List<CategoryEntity> getCategoriesByStudyProgramId(@PathVariable Integer id) {
+        return studyProgramService.getCategoriesByStudyProgram(id);
     }
 
     @GetMapping("{id}")

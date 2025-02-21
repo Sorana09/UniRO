@@ -19,6 +19,6 @@ public class UniversityDto {
     private String website;
     private Integer rank;
     private List<CategoryDto> categories;
-    private AdmmisionRequirementsDto admissionRequirements;
+    private String admissionRequirements;
 
 }

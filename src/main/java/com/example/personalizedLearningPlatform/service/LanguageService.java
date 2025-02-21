@@ -1,5 +1,6 @@
 package com.example.personalizedLearningPlatform.service;
 
+import com.example.personalizedLearningPlatform.entity.CategoryEntity;
 import com.example.personalizedLearningPlatform.entity.LanguageEntity;
 import com.example.personalizedLearningPlatform.repo.LanguageRepository;
 import lombok.AllArgsConstructor;
@@ -30,5 +31,8 @@ public class LanguageService {
     }
     public void deleteLanguageById(Integer id) {
         languageRepository.deleteById(id);
+    }
+    public List<CategoryEntity> getCategoriesByLanguageId(Integer languageId) {
+        return languageRepository.getCategoryByLanguage(languageId);
     }
 }
