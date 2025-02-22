@@ -1,7 +1,6 @@
 package com.example.personalizedLearningPlatform.dto.mapper;
 
 import com.example.personalizedLearningPlatform.dto.*;
-import com.example.personalizedLearningPlatform.dto.enums.AdmmisionRequirementsDto;
 import com.example.personalizedLearningPlatform.entity.*;
 
 import java.util.List;
@@ -42,6 +41,8 @@ public class Mapper {
                 .rank(universityEntity.getRank())
                 .categories(categoryDtos)
                 .admissionRequirements(universityEntity.getAdmissionRequirements())
+                .latitude(universityEntity.getLatitude())
+                .longitude(universityEntity.getLongitude())
                 .build();
     }
 

@@ -23,5 +23,8 @@ public class UniversityEntity {
     private List<CategoryEntity> categoryEntities;
     private String admissionRequirements;
 
+    private Double latitude;
+    private Double longitude;
+
 
 }

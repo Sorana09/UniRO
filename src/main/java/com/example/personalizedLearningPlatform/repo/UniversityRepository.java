@@ -54,6 +54,12 @@ public class UniversityRepository {
         return university;
     }
 
+    public void updateCoordinates(Integer id, double latitude, double longitude) {
+        String sql = "UPDATE university_entity SET latitude = ?, longitude = ? WHERE id = ?";
+
+        jdbcTemplate.update(sql, latitude, longitude, id);
+    }
+
     public UniversityEntity save(UniversityEntity universityEntity) {
 
         String insertQuery = "INSERT INTO university_entity ( name, location, website, rank, admission_requirements) VALUES ( ?, ?, ?, ?, ?)";

@@ -27,6 +27,9 @@ CREATE TABLE university_entity (
                                    rank INT,
                                    admission_requirements VARCHAR(1000)
 );
+ALTER TABLE university_entity
+ADD COLUMN latitude DECIMAL (9,6),
+ADD COLUMN longitude DECIMAL(9,6);
 
 CREATE TABLE category_entity (
                                  id SERIAL PRIMARY KEY,

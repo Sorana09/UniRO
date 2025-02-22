@@ -4,11 +4,15 @@ import com.example.personalizedLearningPlatform.dto.UniversityDto;
 import com.example.personalizedLearningPlatform.dto.mapper.ExcelToEntityMapper;
 import com.example.personalizedLearningPlatform.entity.CategoryEntity;
 import com.example.personalizedLearningPlatform.entity.UniversityEntity;
+import com.example.personalizedLearningPlatform.service.GeocodingService;
 import com.example.personalizedLearningPlatform.service.UniversityCategoryService;
 import com.example.personalizedLearningPlatform.service.UniversityService;
+import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -20,14 +24,15 @@ import java.util.stream.Collectors;
 import static com.example.personalizedLearningPlatform.dto.mapper.Mapper.mapper;
 
 
+@Slf4j
 @RestController
 @RequestMapping("/universities")
+@AllArgsConstructor
 public class UniversityController {
 
-    @Autowired
-    private UniversityService universityService;
-    @Autowired
-    private UniversityCategoryService universityCategoryService;
+    private final UniversityService universityService;
+    private final UniversityCategoryService universityCategoryService;
+    private final GeocodingService geocodingService;
 
     @PostMapping("/upload")
     public String uploadFile(@RequestParam("file") MultipartFile file) {
@@ -48,6 +53,12 @@ public class UniversityController {
             e.printStackTrace();
             return "Failed to upload and process the file.";
         }
+    }
+
+    @PostMapping("/update-coordinates")
+    public String updateCoordinates() {
+        geocodingService.updateUniversityCoordinates();
+        return "Coordinates update initiated!";
     }
 
     @GetMapping

@@ -21,6 +21,8 @@ public class UniversityMapper implements RowMapper<UniversityEntity> {
                 .website(rs.getString("website"))
                 .rank(rs.getInt("rank"))
                 .admissionRequirements(rs.getString("admission_requirements"))
+                .latitude(rs.getDouble("latitude"))
+                .longitude(rs.getDouble("longitude"))
                 .build();
     }
 

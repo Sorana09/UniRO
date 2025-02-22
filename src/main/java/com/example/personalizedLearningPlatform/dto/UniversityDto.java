@@ -1,6 +1,5 @@
 package com.example.personalizedLearningPlatform.dto;
 
-import com.example.personalizedLearningPlatform.dto.enums.AdmmisionRequirementsDto;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -20,5 +19,8 @@ public class UniversityDto {
     private Integer rank;
     private List<CategoryDto> categories;
     private String admissionRequirements;
+
+    private Double latitude;
+    private Double longitude;
 
 }

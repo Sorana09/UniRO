@@ -7,13 +7,14 @@ import com.example.personalizedLearningPlatform.repo.UniversityCategoryRepositor
 import com.example.personalizedLearningPlatform.repo.UniversityRepoExtract;
 import com.example.personalizedLearningPlatform.repo.UniversityRepository;
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
-
+@Slf4j
 @Service
 @AllArgsConstructor
 public class UniversityService {
@@ -22,6 +23,7 @@ public class UniversityService {
     private final UniversityRepository universityRepository;
     private final CategoryRepository categoryRepository;
     private final UniversityCategoryRepository universityCategoryRepository;
+    private final GeocodingService geocodingService;
 
     private final UniversityRepoExtract universityRepoExtract;
 
@@ -31,6 +33,10 @@ public class UniversityService {
 
     public void saveAllUniversities(List<UniversityEntity> universities) {
         universityRepoExtract.saveAllUniversities(universities);
+    }
+
+    public void updateCoordonates(Integer id, double Lant, double Long){
+        universityRepository.updateCoordinates(id,Lant,Long);
     }
 
     public List<UniversityEntity> getAllUniversities() {
