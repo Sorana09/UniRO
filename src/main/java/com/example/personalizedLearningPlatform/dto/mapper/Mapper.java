@@ -19,6 +19,9 @@ public class Mapper {
                 .email(userEntity.getEmail())
                 .hashed_password(userEntity.getHashedPassword())
                 .is_admin(userEntity.getIsAdmin())
+                .interestsAndHobbies(userEntity.getInterestsAndHobbies())
+                .suitableCities(userEntity.getSuitableCities())
+                .recommandation(userEntity.getRecommandation())
                 .build();
 
     }
@@ -43,6 +46,7 @@ public class Mapper {
                 .admissionRequirements(universityEntity.getAdmissionRequirements())
                 .latitude(universityEntity.getLatitude())
                 .longitude(universityEntity.getLongitude())
+                .description(universityEntity.getDescription())
                 .build();
     }
 

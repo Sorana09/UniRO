@@ -23,6 +23,7 @@ public class UniversityMapper implements RowMapper<UniversityEntity> {
                 .admissionRequirements(rs.getString("admission_requirements"))
                 .latitude(rs.getDouble("latitude"))
                 .longitude(rs.getDouble("longitude"))
+                .description(rs.getString("description"))
                 .build();
     }
 

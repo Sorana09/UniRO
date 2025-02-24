@@ -19,6 +19,11 @@ CREATE TABLE user_entity (
                              is_admin BOOLEAN DEFAULT FALSE NOT NULL
 );
 
+ALTER TABLE user_entity ADD COLUMN interests_and_hobbies VARCHAR(1000);
+ALTER TABLE user_entity ADD COLUMN suitable_cities VARCHAR(255);
+ALTER TABLE user_entity DROP COLUMN recommandation;
+ALTER TABLE user_entity ADD COLUMN recommandation VARCHAR(10000);
+
 CREATE TABLE university_entity (
                                    id SERIAL PRIMARY KEY,
                                    name VARCHAR(255) NOT NULL,
@@ -30,6 +35,8 @@ CREATE TABLE university_entity (
 ALTER TABLE university_entity
 ADD COLUMN latitude DECIMAL (9,6),
 ADD COLUMN longitude DECIMAL(9,6);
+
+ALTER TABLE university_entity ADD COLUMN description VARCHAR(10000);
 
 CREATE TABLE category_entity (
                                  id SERIAL PRIMARY KEY,

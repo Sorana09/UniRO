@@ -38,6 +38,17 @@ public class UserService {
         return user.map(it -> it.getHashedPassword().equals(getMD5(password))).orElse(false);
     }
 
+    public void updateInterestsAndHobbies(Integer id, String interestsAndHobbies) {
+        userRepository.updateInterestsAndHobbies(id, interestsAndHobbies);
+    }
+    public void updateRecommendation(Integer id, String recommendation) {
+        userRepository.updateRecommendation(id, recommendation);
+    }
+
+    public void updateCities(Integer id, String cities) {
+        userRepository.updatCities(id, cities);
+    }
+
     public void deleteById(Long id) {
         userRepository.deleteById(id);
     }

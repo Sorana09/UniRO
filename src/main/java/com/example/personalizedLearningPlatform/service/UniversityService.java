@@ -35,6 +35,10 @@ public class UniversityService {
         universityRepoExtract.saveAllUniversities(universities);
     }
 
+    public void updateDescription(Integer id, String newDescription){
+        universityRepository.updateDescription(id, newDescription);
+    }
+
     public void updateCoordonates(Integer id, double Lant, double Long){
         universityRepository.updateCoordinates(id,Lant,Long);
     }

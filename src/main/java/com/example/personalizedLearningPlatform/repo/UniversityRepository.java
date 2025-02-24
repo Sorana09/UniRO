@@ -60,6 +60,10 @@ public class UniversityRepository {
         jdbcTemplate.update(sql, latitude, longitude, id);
     }
 
+    public void updateDescription(Integer id, String newDesciption){
+        jdbcTemplate.update("UPDATE university_entity SET description = ? WHERE id = ?",newDesciption,id);
+    }
+
     public UniversityEntity save(UniversityEntity universityEntity) {
 
         String insertQuery = "INSERT INTO university_entity ( name, location, website, rank, admission_requirements) VALUES ( ?, ?, ?, ?, ?)";

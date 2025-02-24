@@ -18,4 +18,9 @@ public class UserDto {
     private String hashed_password;
     private Boolean is_admin;
 
+    private String interestsAndHobbies;
+    private String suitableCities;
+
+    private String recommandation;
+
 }

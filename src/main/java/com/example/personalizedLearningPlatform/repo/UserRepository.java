@@ -50,6 +50,17 @@ public class UserRepository {
         return users.isEmpty() ? Optional.empty() : Optional.of(users.get(0));
     }
 
+    public void updateInterestsAndHobbies(Integer id, String interestsAndHobbies) {
+        jdbcTemplate.update("UPDATE user_entity SET interests_and_hobbies = ? WHERE id = ?", interestsAndHobbies, id);
+    }
+
+    public void updatCities(Integer id, String cities) {
+        jdbcTemplate.update("UPDATE user_entity SET suitable_cities = ? WHERE id = ?", cities, id);
+    }
+    public void updateRecommendation(Integer id, String recommendation) {
+        jdbcTemplate.update("UPDATE user_entity SET recommandation = ? WHERE id = ?", recommendation, id);
+    }
+
     public Optional<UserEntity> findByEmail(String email) {
         List<UserEntity> users = jdbcTemplate.query(
                 "SELECT * FROM user_entity WHERE email = ?",

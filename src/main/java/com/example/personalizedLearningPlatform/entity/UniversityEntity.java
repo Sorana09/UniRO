@@ -26,5 +26,7 @@ public class UniversityEntity {
     private Double latitude;
     private Double longitude;
 
+    private String description;
+
 
 }

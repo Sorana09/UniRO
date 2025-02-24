@@ -5,6 +5,7 @@ import com.example.personalizedLearningPlatform.dto.mapper.ExcelToEntityMapper;
 import com.example.personalizedLearningPlatform.entity.CategoryEntity;
 import com.example.personalizedLearningPlatform.entity.UniversityEntity;
 import com.example.personalizedLearningPlatform.service.GeocodingService;
+import com.example.personalizedLearningPlatform.service.OpenAIService;
 import com.example.personalizedLearningPlatform.service.UniversityCategoryService;
 import com.example.personalizedLearningPlatform.service.UniversityService;
 import lombok.AllArgsConstructor;
@@ -33,6 +34,7 @@ public class UniversityController {
     private final UniversityService universityService;
     private final UniversityCategoryService universityCategoryService;
     private final GeocodingService geocodingService;
+    private final OpenAIService openAIService;
 
     @PostMapping("/upload")
     public String uploadFile(@RequestParam("file") MultipartFile file) {
@@ -92,6 +94,36 @@ public class UniversityController {
 
         return ResponseEntity.ok(universityDtos);
     }
+
+    @GetMapping("/{id}/generate-description")
+    public ResponseEntity<String> generateDescription(@PathVariable Integer id) throws IOException {
+        Optional<UniversityEntity> optionalUniversity = universityService.getUniversityById(id);
+        if (optionalUniversity.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
+
+        UniversityEntity university = optionalUniversity.get();
+
+        String newDescription = openAIService.generateDescription(university.getName());
+
+        return ResponseEntity.ok(newDescription);
+    }
+
+    @PutMapping("/{id}/regenerate-description")
+    public ResponseEntity<UniversityEntity> regenerateDescription(@PathVariable Integer id, @RequestBody String description) throws IOException {
+        Optional<UniversityEntity> optionalUniversity = universityService.getUniversityById(id);
+        if (optionalUniversity.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
+
+        UniversityEntity university = optionalUniversity.get();
+
+        university.setDescription(description);
+        universityService.updateDescription(id, description);
+
+        return ResponseEntity.ok(university);
+    }
+
 
     @GetMapping("/{id}")
     public ResponseEntity<UniversityEntity> getUniversityById(@PathVariable Integer id) {

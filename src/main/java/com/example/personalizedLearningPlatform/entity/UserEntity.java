@@ -20,5 +20,10 @@ public class UserEntity {
     private String hashedPassword;
     private Boolean isAdmin;
 
+    private String interestsAndHobbies;
+    private String suitableCities;
+
+    private String recommandation;
+
 }
 

@@ -4,12 +4,14 @@ import com.example.personalizedLearningPlatform.dto.UserDto;
 import com.example.personalizedLearningPlatform.entity.UserEntity;
 import com.example.personalizedLearningPlatform.exception.EntityNotFoundException;
 import com.example.personalizedLearningPlatform.repo.UserRepository;
+import com.example.personalizedLearningPlatform.service.OpenAIService;
 import com.example.personalizedLearningPlatform.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -24,6 +26,7 @@ public class UserController {
 
     private final UserService userService;
     private final UserRepository userRepository;
+    private final OpenAIService openAIService;
 
 
     @GetMapping("/{id}")
@@ -51,6 +54,27 @@ public class UserController {
         if (userDtos.size() > 0)
             return ResponseEntity.ok(userDtos);
         else return ResponseEntity.noContent().build();
+    }
+
+    @GetMapping("/{userId}/recommend-faculties")
+    public ResponseEntity<String> recommendFaculties(@PathVariable Integer userId) throws IOException {
+        UserEntity user = userService.findById(userId).get();
+        String interests = user.getInterestsAndHobbies();
+        String cities = user.getSuitableCities();
+        String recommendation = openAIService.generateFaculties(interests, cities);
+        userService.updateRecommendation(userId, recommendation);
+        return ResponseEntity.ok(recommendation);
+    }
+
+    @PutMapping("/{id}/interests")
+    public ResponseEntity<UserDto> updateInterestsAndHobbies(@PathVariable Integer id, @RequestBody String interestsAndHobbies) {
+        userService.updateInterestsAndHobbies(id, interestsAndHobbies);
+        return ResponseEntity.ok(mapper(userService.findById(id).get()));
+    }
+    @PutMapping("/{id}/cities")
+    public ResponseEntity<UserDto> updateCities(@PathVariable Integer id, @RequestBody String cities) {
+        userService.updateCities(id, cities);
+        return ResponseEntity.ok(mapper(userService.findById(id).get()));
     }
 
     @PostMapping("/signup")
