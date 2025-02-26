@@ -94,6 +94,18 @@ public class CategoryRepository {
         });
     }
 
+    public void updateDescription(Integer id, String description){
+        jdbcTemplate.update("UPDATE category_entity SET description = ? WHERE id = ?", description, id);
+    }
+
+    public void updateEntranceMethod(Integer id, String entranceMethod){
+        jdbcTemplate.update("UPDATE category_entity SET entrance_method = ? WHERE id = ?", entranceMethod, id);
+    }
+
+    public void updateCoordinates(Integer id, Double latitude, Double longitude){
+        jdbcTemplate.update("UPDATE category_entity SET latitude = ?, longitude = ? WHERE id = ?", latitude, longitude, id);
+    }
+
     public void deleteById(Integer id) {
         jdbcTemplate.update("DELETE FROM category_entity WHERE id = ?", id);
     }

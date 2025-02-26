@@ -24,6 +24,18 @@ public class CategoryService {
         return categoryRepository.findByUniversityId(universityId);
     }
 
+    public void updateDescription(Integer id, String description) {
+        categoryRepository.updateDescription(id, description);
+    }
+
+    public void updateEntranceMethod(Integer id, String entranceMethod) {
+        categoryRepository.updateEntranceMethod(id, entranceMethod);
+    }
+
+    public void updateCoordinates(Integer id, Double latitude, Double longitude) {
+        categoryRepository.updateCoordinates(id, latitude, longitude);
+    }
+
     public List<CategoryEntity> getAllCategories() {
         return categoryRepository.findAll();
     }

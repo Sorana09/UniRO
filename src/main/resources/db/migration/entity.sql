@@ -42,6 +42,11 @@ CREATE TABLE category_entity (
                                  id SERIAL PRIMARY KEY,
                                  name VARCHAR(1000) NOT NULL
 );
+
+ALTER TABLE category_entity ADD COLUMN description VARCHAR(10000), ADD COLUMN latitude DECIMAL(9,6), ADD COLUMN longitude DECIMAL(9,6);
+ALTER TABLE category_entity ADD COLUMN entrance_method VARCHAR(10000);
+ALTER TABLE category_entity DROP COLUMN entrance_method ;
+
 CREATE TABLE language_entity(
                                 id SERIAL PRIMARY KEY,
                                 name VARCHAR(1000) NOT NULL

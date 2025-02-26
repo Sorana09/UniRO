@@ -24,6 +24,10 @@ public class SessionRepository {
         return sessionEntities;
     }
 
+    public List<SessionEntity> getSessions() {
+        return jdbcTemplate.query("select * from sessions",sessionMapper);
+    }
+
     public void insert(SessionEntity sessionEntity) {
         KeyHolder keyHolder = new GeneratedKeyHolder();
 

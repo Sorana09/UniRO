@@ -9,6 +9,7 @@ import com.example.personalizedLearningPlatform.entity.UniversityEntity;
 import com.example.personalizedLearningPlatform.service.CategoryLanguageService;
 import com.example.personalizedLearningPlatform.service.CategoryService;
 import com.example.personalizedLearningPlatform.service.CategoryStudyProgramService;
+import com.example.personalizedLearningPlatform.service.OpenAIService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -33,6 +34,7 @@ public class CategoryController {
     private final CategoryService categoryService;
     private final CategoryLanguageService categoryLanguageService;
     private final CategoryStudyProgramService categoryStudyProgramService;
+    private final OpenAIService openAIService;
 
 
     @GetMapping
@@ -101,6 +103,41 @@ public class CategoryController {
         categoryEntity.setId(id);
         CategoryEntity updatedCategory = categoryService.createOrUpdateCategory(categoryEntity);
         return ResponseEntity.ok(updatedCategory);
+    }
+
+    @GetMapping("/{id}/description")
+    public String setDescription(@PathVariable Integer id) throws IOException {
+        CategoryEntity category =categoryService.getCategoryById(id).get();
+        String generatedDescription = openAIService.generateInformationForCategories(category.getName());
+       // categoryService.updateDescription(id, generatedDescription);
+        return generatedDescription;
+    }
+
+    @PutMapping("/{id}/setdescription")
+    public ResponseEntity<CategoryEntity> setDescription(@PathVariable Integer id, @RequestBody String description) {
+        if (!categoryService.getCategoryById(id).isPresent()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
+        categoryService.updateDescription(id, description);
+        return ResponseEntity.ok(categoryService.getCategoryById(id).get());
+    }
+
+    @GetMapping("/{id}/coordinates")
+    public ResponseEntity<double[]> generateCoordinates(@PathVariable Integer id) throws IOException {
+        CategoryEntity category =categoryService.getCategoryById(id).get();
+        double[] coordinates = openAIService.generateInformationForCategoriesLatAndLong(category.getName());
+        categoryService.updateCoordinates(id, coordinates[0], coordinates[1]);
+        return new ResponseEntity<>(coordinates, HttpStatus.OK);
+    }
+
+    @GetMapping("/{id}/setEntranceMethod")
+    public ResponseEntity<CategoryEntity> setEntranceMethod(@PathVariable Integer id) throws IOException {
+        if (!categoryService.getCategoryById(id).isPresent()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
+        String entranceMethod = openAIService.generateEntranceMethod(categoryService.getCategoryById(id).get().getName());
+        categoryService.updateEntranceMethod(id, entranceMethod);
+        return ResponseEntity.ok(categoryService.getCategoryById(id).get());
     }
 
     @DeleteMapping("/{id}")

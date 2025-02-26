@@ -1,10 +1,12 @@
 package com.example.personalizedLearningPlatform.controller;
 
 import com.example.personalizedLearningPlatform.dto.UserDto;
+import com.example.personalizedLearningPlatform.entity.UniversityEntity;
 import com.example.personalizedLearningPlatform.entity.UserEntity;
 import com.example.personalizedLearningPlatform.exception.EntityNotFoundException;
 import com.example.personalizedLearningPlatform.repo.UserRepository;
 import com.example.personalizedLearningPlatform.service.OpenAIService;
+import com.example.personalizedLearningPlatform.service.UniversityService;
 import com.example.personalizedLearningPlatform.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -25,7 +27,6 @@ import static com.example.personalizedLearningPlatform.dto.mapper.Mapper.mapper;
 public class UserController {
 
     private final UserService userService;
-    private final UserRepository userRepository;
     private final OpenAIService openAIService;
 
 

@@ -70,6 +70,17 @@ public class SessionService {
         return Optional.of(sessionEntity);
     }
 
+    public Integer getActiveSessions() {
+        List<SessionEntity> sessionEntities =  sessionRepository.getSessions();
+        Integer numberOfSessionsActive =0;
+        for (SessionEntity sessionEntity : sessionEntities) {
+            if (!isExpired(sessionEntity)) {
+                numberOfSessionsActive++;
+            }
+        }
+        return numberOfSessionsActive;
+    }
+
     public Optional<SessionEntity> getSessionBySessionKey(String sessionKey) {
         Optional<SessionEntity> sessionEntity = sessionRepository.getByKey(sessionKey);
         if (sessionEntity.isEmpty()) {

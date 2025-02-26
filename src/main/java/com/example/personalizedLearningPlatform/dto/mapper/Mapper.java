@@ -57,6 +57,10 @@ public class Mapper {
         return CategoryDto.builder()
                 .id(categoryEntity.getId())
                 .name(categoryEntity.getName())
+                .description(categoryEntity.getDescription())
+                .latitude(categoryEntity.getLatitude())
+                .longitude(categoryEntity.getLongitude())
+                .entranceMethod(categoryEntity.getEntranceMethod())
                 .build();
     }
 

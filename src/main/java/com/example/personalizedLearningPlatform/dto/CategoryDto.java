@@ -14,4 +14,11 @@ import java.util.List;
 public class CategoryDto {
     private Integer id;
     private String name;
+
+    private String description;
+    private Double latitude;
+    private Double longitude;
+
+    private String entranceMethod;
+
 }

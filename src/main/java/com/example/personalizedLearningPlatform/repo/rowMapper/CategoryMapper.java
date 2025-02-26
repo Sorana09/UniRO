@@ -16,6 +16,10 @@ public class CategoryMapper implements RowMapper<CategoryEntity> {
 
         categoryEntity.setId(rs.getInt("id"));
         categoryEntity.setName(rs.getString("name"));
+        categoryEntity.setDescription(rs.getString("description"));
+        categoryEntity.setLatitude(rs.getDouble("latitude"));
+        categoryEntity.setLongitude(rs.getDouble("longitude"));
+        categoryEntity.setEntranceMethod(rs.getString("entrance_method"));
         return categoryEntity;
     }
 

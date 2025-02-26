@@ -34,6 +34,11 @@ public class SessionController {
                 .orElseGet(() -> ResponseEntity.badRequest().build());
     }
 
+    @GetMapping("/sessions/active")
+    public Integer getActiveSessions() {
+        return sessionService.getActiveSessions();
+    }
+
     @GetMapping("/sessions")
     public ResponseEntity<List<SessionDto>> getSessions(@RequestParam(name = "userId", required = false) Integer userId,
                                                         @RequestParam(name = "isActive", required = false) Boolean isActive) {
