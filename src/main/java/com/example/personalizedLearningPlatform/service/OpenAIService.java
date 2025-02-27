@@ -113,8 +113,7 @@ public class OpenAIService {
                         "Include informații structurate despre istorie, facultăți, infrastructură și oportunități pentru studenți." +
                         " Folosește un ton profesional și captivant, cu paragrafe bine delimitate pentru lizibilitate." +
                         "Fa totul ca un fel de lista : like foarte organizat: in primul si primul rand include informatii necesare cum ar fi: modul de admitere: diploma de bac sau admitere, cat de grea e admiterea si la ce trebuie sa inveti, unde poti gasi aceste informatii . aceste informatii sa le zicem vitale le vreau sa iasa in evidenta sa fie scrise: tip admitere: examen de admitere sau diploma de bac, nu doar niste paragrafe care sa fie greu de citit, da si site-ul facultatii"+
-                        "ca ultim detaliu , afiseazami la final lat si long locatiei fiecariei facultati te rog"+
-                        "Adauga si cateva emoji in descriere ca sa para mai interesanta, la fiecare inceput de paragraf, nu doar la final\"}]}"
+                        "adauga un pagraf si despte burse si finantari"+"Adauga si cateva emoji in descriere ca sa para mai interesanta, la fiecare inceput de paragraf, nu doar la final\"}]}"
                 , encodedCategoryName);
 
         RequestBody body = RequestBody.create(jsonRequest, JSON);

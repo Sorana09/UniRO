@@ -35,7 +35,7 @@ public class LanguageCotroller {
         return ResponseEntity.ok(mapper(languageService.getById(id).get()));
     }
     @GetMapping("/{id}/cat")
-    public List<CategoryEntity> getCategoriesByStudyProgramId(@PathVariable Integer id) {
+    public List<CategoryEntity> getCategoriesByLanguageId(@PathVariable Integer id) {
         return languageService.getCategoriesByLanguageId(id);
     }
     @PostMapping

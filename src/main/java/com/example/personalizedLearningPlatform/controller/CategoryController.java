@@ -11,6 +11,7 @@ import com.example.personalizedLearningPlatform.service.CategoryService;
 import com.example.personalizedLearningPlatform.service.CategoryStudyProgramService;
 import com.example.personalizedLearningPlatform.service.OpenAIService;
 import lombok.AllArgsConstructor;
+import org.etsi.uri.x01903.v13.ResponderIDType;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -113,6 +114,15 @@ public class CategoryController {
         return generatedDescription;
     }
 
+    @GetMapping("/languages/{categoryId}")
+    public ResponseEntity<List<LanguageEntity>> getLanguages(@PathVariable Integer categoryId) {
+        return ResponseEntity.ok(categoryService.getLanguageCategories(categoryId));
+    }
+    @GetMapping("/study-program/{categoryId}")
+    public ResponseEntity<List<StudyProgramEntity>> getStudyProgram(@PathVariable Integer categoryId) {
+        return ResponseEntity.ok(categoryService.getStudyProgramCategories(categoryId));
+    }
+
     @PutMapping("/{id}/setdescription")
     public ResponseEntity<CategoryEntity> setDescription(@PathVariable Integer id, @RequestBody String description) {
         if (!categoryService.getCategoryById(id).isPresent()) {
@@ -138,6 +148,16 @@ public class CategoryController {
         String entranceMethod = openAIService.generateEntranceMethod(categoryService.getCategoryById(id).get().getName());
         categoryService.updateEntranceMethod(id, entranceMethod);
         return ResponseEntity.ok(categoryService.getCategoryById(id).get());
+    }
+
+    @GetMapping("/set-description-for-all-categories")
+    public ResponseEntity<String> setDescriptionForAllCategories() throws IOException {
+        List<CategoryEntity> categories = categoryService.getAllCategories();
+        for (CategoryEntity category : categories) {
+            String generatedDescription = openAIService.generateInformationForCategories(category.getName());
+            categoryService.updateDescription(category.getId(), generatedDescription);
+        }
+        return ResponseEntity.ok("Descriptions for all categories have been set successfully!");
     }
 
     @DeleteMapping("/{id}")

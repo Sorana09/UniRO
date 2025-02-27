@@ -1,6 +1,8 @@
 package com.example.personalizedLearningPlatform.service;
 
 import com.example.personalizedLearningPlatform.entity.CategoryEntity;
+import com.example.personalizedLearningPlatform.entity.LanguageEntity;
+import com.example.personalizedLearningPlatform.entity.StudyProgramEntity;
 import com.example.personalizedLearningPlatform.entity.UniversityEntity;
 import com.example.personalizedLearningPlatform.repo.CategoryRepository;
 import lombok.AllArgsConstructor;
@@ -34,6 +36,14 @@ public class CategoryService {
 
     public void updateCoordinates(Integer id, Double latitude, Double longitude) {
         categoryRepository.updateCoordinates(id, latitude, longitude);
+    }
+
+    public List<LanguageEntity> getLanguageCategories(Integer categoryId) {
+        return categoryRepository.getLanguageByCategoryId(categoryId);
+    }
+
+    public List<StudyProgramEntity> getStudyProgramCategories(Integer categoryId) {
+        return categoryRepository.getStudyProgramByCategoryId(categoryId);
     }
 
     public List<CategoryEntity> getAllCategories() {

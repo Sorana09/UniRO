@@ -156,4 +156,18 @@ public class UniversityController {
         universityService.deleteUniversity(id);
         return ResponseEntity.noContent().build();
     }
+
+
+    // this will kill my laptop
+    @GetMapping("/set-description-for-all-universities")
+    public ResponseEntity<String> setDescriptionForAllUniversities() throws IOException {
+        List<UniversityEntity> universities = universityService.getAllUniversities();
+        for (UniversityEntity university : universities) {
+            String generatedDescription = openAIService.generateDescription(university.getName());
+            university.setDescription(generatedDescription);
+            universityService.updateDescription(university.getId(), generatedDescription);
+        }
+
+        return ResponseEntity.ok("Descriptions set for all universities!");
+    }
 }

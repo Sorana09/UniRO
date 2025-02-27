@@ -2,8 +2,12 @@ package com.example.personalizedLearningPlatform.repo;
 
 
 import com.example.personalizedLearningPlatform.entity.CategoryEntity;
+import com.example.personalizedLearningPlatform.entity.LanguageEntity;
+import com.example.personalizedLearningPlatform.entity.StudyProgramEntity;
 import com.example.personalizedLearningPlatform.entity.UniversityEntity;
 import com.example.personalizedLearningPlatform.repo.rowMapper.CategoryMapper;
+import com.example.personalizedLearningPlatform.repo.rowMapper.LanguageMapper;
+import com.example.personalizedLearningPlatform.repo.rowMapper.StudyProgramMapper;
 import lombok.AllArgsConstructor;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -24,6 +28,8 @@ public class CategoryRepository {
 
     private final JdbcTemplate jdbcTemplate;
     private final CategoryMapper categoryMapper;
+    private final LanguageMapper languageMapper;
+    private final StudyProgramMapper studyProgramMapper;
 
     public CategoryEntity save(CategoryEntity category) {
 
@@ -45,6 +51,21 @@ public class CategoryRepository {
 
         return category;
     }
+
+    public List<LanguageEntity> getLanguageByCategoryId(Integer categoryId) {
+        String query = "SELECT u.* FROM language_entity u " +
+                "JOIN category_language uc ON u.id = uc.language_id " +
+                "WHERE uc.category_id = ?";
+        return jdbcTemplate.query(query,new Object[]{categoryId},languageMapper);
+    }
+
+    public List<StudyProgramEntity> getStudyProgramByCategoryId(Integer categoryId) {
+        String query = "SELECT u.* FROM study_program_entity u " +
+                "JOIN category_study_program uc ON u.id = uc.study_program_id " +
+                "WHERE uc.category_id = ?";
+        return jdbcTemplate.query(query,new Object[]{categoryId},studyProgramMapper);
+    }
+
 
     public Optional<CategoryEntity> findById(Integer id) {
         List<CategoryEntity> categories = jdbcTemplate.query(

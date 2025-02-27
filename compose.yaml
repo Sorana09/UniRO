@@ -1,6 +1,7 @@
 networks:
   personalized_learning_db:
     driver: bridge
+
 services:
   db:
     hostname: personalized_learning_db
@@ -13,6 +14,7 @@ services:
       POSTGRES_USER: admin
       POSTGRES_PASSWORD: ChangeMe
       POSTGRES_DB: personalized_learning_db
+
   admin:
     image: adminer
     networks:
@@ -21,4 +23,20 @@ services:
     depends_on:
       - db
     ports:
-      - 8080:8080
+      - "8080:8080"
+
+  grafana:
+    image: grafana/grafana
+    restart: always
+    ports:
+      - "3001:3000"
+    networks:
+      - personalized_learning_db
+    environment:
+      - GF_SECURITY_ADMIN_USER=admin
+      - GF_SECURITY_ADMIN_PASSWORD=admin
+    volumes:
+      - grafana-data:/var/lib/grafana
+
+volumes:
+  grafana-data:
