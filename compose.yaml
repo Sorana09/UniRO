@@ -1,3 +1,5 @@
+version: '3'
+
 networks:
   personalized_learning_db:
     driver: bridge
@@ -37,6 +39,20 @@ services:
       - GF_SECURITY_ADMIN_PASSWORD=admin
     volumes:
       - grafana-data:/var/lib/grafana
+
+  prometheus:
+    image: prom/prometheus
+    restart: always
+    ports:
+      - "9090:9090"
+    networks:
+      - personalized_learning_db
+    volumes:
+      - ./prometheus.yml:/etc/prometheus/prometheus.yml
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+      - '--storage.tsdb.path=/prometheus'  # Opțional, specifică locația de stocare
+      - '--web.listen-address=:9090'
 
 volumes:
   grafana-data:
