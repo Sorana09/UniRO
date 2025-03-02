@@ -1,0 +1,12 @@
+<configuration>
+
+    <appender name="LOKI" class="me.loki.appender.LogbackLokiAppender">
+        <url>http://loki:3110/api/prom/push</url>
+        <batchSize>1024</batchSize>
+        <maxRetries>3</maxRetries>
+    </appender>
+
+    <root level="info">
+        <appender-ref ref="LOKI"/>
+    </root>
+</configuration>

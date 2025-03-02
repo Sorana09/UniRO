@@ -107,4 +107,18 @@ public class Mapper {
                 .name(studyProgramEntity.getName())
                 .build();
     }
+
+
+    public static UserActivityDto mapper(UserActivityEntity userActivityEntity) {
+        if (userActivityEntity == null) {
+            return null;
+        }
+        return UserActivityDto.builder()
+                .id(userActivityEntity.getId())
+                .userId(userActivityEntity.getUserId())
+                .action(userActivityEntity.getAction())
+                .endpoint(userActivityEntity.getEndpoint())
+                .timestamp(userActivityEntity.getTimestamp())
+                .build();
+    }
 }

@@ -33,9 +33,13 @@ public class UserService {
         return userRepository.findByEmail(email);
     }
 
-    public boolean verifyPassword(Integer Id, String password) {
-        Optional<UserEntity> user = userRepository.findById(Id);
-        return user.map(it -> it.getHashedPassword().equals(getMD5(password))).orElse(false);
+    public boolean verifyPassword(Integer id, String password) {
+            if (password == null) {
+                throw new IllegalArgumentException("Password cannot be null");
+            }
+            Optional<UserEntity> user = userRepository.findById(id);
+            return user.map(it -> passwordEncoder.matches(password, it.getHashedPassword())).orElse(false);
+
     }
 
     public void updateInterestsAndHobbies(Integer id, String interestsAndHobbies) {

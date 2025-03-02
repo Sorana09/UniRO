@@ -28,7 +28,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/actuator/**","/actuator/prometheus", "/actuator/health", "/actuator/metrics")
                         .permitAll()
-                        .requestMatchers("/login", "/sessions/**", "/users/**", "/universities/**", "/reviews/**",
+                        .requestMatchers("/login", "/sessions/**", "/users/**","/universities/upload", "/universities/**", "/reviews/**",
                                 "/categories/**", "/languages/**", "/study-programs/**")
                         .permitAll()
                         .requestMatchers("/admin/**").hasRole("ADMIN")

@@ -3,11 +3,13 @@ package com.example.personalizedLearningPlatform.repo;
 import com.example.personalizedLearningPlatform.entity.CategoryEntity;
 import com.example.personalizedLearningPlatform.entity.StudyProgramEntity;
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
+@Slf4j
 @Repository
 @AllArgsConstructor
 public class CategoryStudyProgramRepository {
@@ -28,12 +30,12 @@ public class CategoryStudyProgramRepository {
             return ids.get(0);
         }
 
-        jdbcTemplate.update("INSERT INTO category_entity (name) VALUE (?)",
+        jdbcTemplate.update("INSERT INTO category_entity (name) VALUES (?)",
                 categoryEntity.getName());
-
-                ids = jdbcTemplate.query(selectQuery,
-                        new Object[]{categoryEntity.getName()},
-                        (rs, rowNum) -> rs.getInt("id"));
+        log.info("Category inserted: " + categoryEntity.getName());
+        ids = jdbcTemplate.query(selectQuery,
+                new Object[]{categoryEntity.getName()},
+                (rs, rowNum) -> rs.getInt("id"));
 
         if (!ids.isEmpty()) {
             return ids.get(0);

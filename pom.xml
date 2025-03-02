@@ -68,6 +68,33 @@
 			<version>5.2.3</version>
 		</dependency>
 		<dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>javax.servlet-api</artifactId>
+			<version>4.0.1</version>
+			<scope>provided</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>io.opentelemetry.instrumentation</groupId>
+			<artifactId>opentelemetry-spring-boot-starter</artifactId>
+			<version>1.30.0-alpha</version>
+		</dependency>
+
+		<!-- Micrometer for metrics -->
+		<dependency>
+			<groupId>io.micrometer</groupId>
+			<artifactId>micrometer-registry-prometheus</artifactId>
+		</dependency>
+
+		<!-- Logback appender for OpenTelemetry -->
+		<dependency>
+		<groupId>io.opentelemetry.instrumentation</groupId>
+		<artifactId>opentelemetry-logback-appender-1.0</artifactId>
+		<version>1.30.0-alpha</version>
+		</dependency>
+
+
+		<dependency>
 			<groupId>io.micrometer</groupId>
 			<artifactId>micrometer-registry-prometheus</artifactId>
 		</dependency>

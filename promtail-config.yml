@@ -1,0 +1,20 @@
+server:
+  http_listen_port: 9080
+  grpc_listen_port: 0
+
+positions:
+  filename: /tmp/positions.yaml
+loki:
+  endpoint: "http://loki:3110/api/prom/push"
+
+clients:
+  - url: http://loki:3110/loki/api/v1/push
+
+scrape_configs:
+  - job_name: "varlogs"
+    static_configs:
+      - targets:
+          - localhost
+        labels:
+          job: "varlogs"
+          __path__: /var/log/*log

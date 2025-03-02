@@ -43,16 +43,20 @@ public class SessionService {
     }
 
     public Optional<SessionEntity> create(LoginRequest loginRequest) {
-        Optional<UserEntity> userEntity = userService.findByEmail(loginRequest.getEmail());
+        log.info("LoginRequest: email={}, password={}", loginRequest.getEmail(), loginRequest.getHashedPassword());
 
+        Optional<UserEntity> userEntity = userService.findByEmail(loginRequest.getEmail());
         if (userEntity.isEmpty()) {
             throw new EntityNotFoundException();
         }
 
         UserEntity user = userEntity.get();
-//        if(!userService.verifyPassword(user.getId(),loginRequest.getPassword())){
-//            throw new WrongPasswordException();
-//        }
+        if (loginRequest.getHashedPassword() == null) {
+            throw new IllegalArgumentException("Password cannot be null");
+        }
+        if(!userService.verifyPassword(user.getId(),loginRequest.getHashedPassword())){
+            throw new WrongPasswordException();
+        }
 
         if (find(user.getId(), true).size() >= 3) {
             throw new TooManySeesionException();

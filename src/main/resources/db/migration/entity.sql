@@ -21,8 +21,9 @@ CREATE TABLE user_entity (
 
 ALTER TABLE user_entity ADD COLUMN interests_and_hobbies VARCHAR(1000);
 ALTER TABLE user_entity ADD COLUMN suitable_cities VARCHAR(255);
-ALTER TABLE user_entity DROP COLUMN recommandation;
 ALTER TABLE user_entity ADD COLUMN recommandation VARCHAR(10000);
+ALTER TABLE user_entity DROP COLUMN recommandation;
+
 
 CREATE TABLE university_entity (
                                    id SERIAL PRIMARY KEY,
@@ -46,6 +47,9 @@ CREATE TABLE category_entity (
 ALTER TABLE category_entity ADD COLUMN description VARCHAR(10000), ADD COLUMN latitude DECIMAL(9,6), ADD COLUMN longitude DECIMAL(9,6);
 ALTER TABLE category_entity ADD COLUMN entrance_method VARCHAR(10000);
 ALTER TABLE category_entity DROP COLUMN entrance_method ;
+ALTER TABLE category_entity DROP COLUMN description , DROP COLUMN latitude, drop COLUMN longitude;
+
+
 
 CREATE TABLE language_entity(
                                 id SERIAL PRIMARY KEY,
@@ -95,6 +99,17 @@ CREATE TABLE review_entity(
                                               REFERENCES  university_entity(id)
                                               ON DELETE CASCADE
 
-)
+);
+
+CREATE TABLE IF NOT EXISTS user_activities (
+                                               id SERIAL PRIMARY KEY,
+                                               user_id INTEGER NOT NULL,
+                                               action TEXT NOT NULL,
+                                               endpoint TEXT NOT NULL,
+                                               timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                                               FOREIGN KEY (user_id) REFERENCES user_entity(id) ON DELETE CASCADE
+);
+
+DROP TABLE IF EXISTS user_activities CASCADE;
 
 
