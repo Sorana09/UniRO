@@ -8,6 +8,9 @@ import com.example.personalizedLearningPlatform.repo.UserRepository;
 import com.example.personalizedLearningPlatform.service.OpenAIService;
 import com.example.personalizedLearningPlatform.service.UniversityService;
 import com.example.personalizedLearningPlatform.service.UserService;
+import io.github.d4rckh.limiterx.spring.annotation.RateLimited;
+import io.github.d4rckh.limiterx.spring.extractor.IPExtractor;
+import io.github.d4rckh.limiterx.spring.extractor.UsernameExtractor;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -79,6 +82,11 @@ public class UserController {
     }
 
     @PostMapping("/signup")
+    @RateLimited(
+        maximumRequests = 5,
+        windowSize = 60,
+        key = IPExtractor.class
+    )
     public ResponseEntity<UserDto> signup(@RequestBody UserEntity user) {
         return ResponseEntity.ok(mapper(userService.save(user)));
     }
