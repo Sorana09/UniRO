@@ -21,9 +21,9 @@ public class WebConfig implements WebMvcConfigurer {
                 .allowCredentials(true);
     }
 
-    private final UserActivityInterceptor userActivityInterceptor;
-
-    public void addInterceptors(InterceptorRegistry registry) {
-        registry.addInterceptor(userActivityInterceptor);
-    }
+//    private final UserActivityInterceptor userActivityInterceptor;
+//
+//    public void addInterceptors(InterceptorRegistry registry) {
+//        registry.addInterceptor(userActivityInterceptor);
+//    }
 }
