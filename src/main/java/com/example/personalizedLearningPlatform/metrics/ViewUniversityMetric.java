@@ -1,20 +1,29 @@
 package com.example.personalizedLearningPlatform.metrics;
 
-import io.micrometer.core.instrument.Counter;
-import io.micrometer.core.instrument.MeterRegistry;
-import lombok.AllArgsConstructor;
+import io.opentelemetry.api.OpenTelemetry;
+import io.opentelemetry.api.common.AttributeKey;
+import io.opentelemetry.api.common.Attributes;
+import io.opentelemetry.api.metrics.LongCounter;
+import io.opentelemetry.api.metrics.Meter;
+import lombok.RequiredArgsConstructor;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.stereotype.Service;
 
-@AllArgsConstructor
+@RequiredArgsConstructor
 @Service
 public class ViewUniversityMetric {
-    private final MeterRegistry meterRegistry;
+    private final Meter meter;
 
-    public void registerViewForUniversity(Integer universityId){
-        Counter.builder("total_views_university")
-                .tags("university", universityId.toString())
-                .register(meterRegistry)
-                .increment();
+    private static final AttributeKey<String> UNIVERSITY_ID_ATTRIBUTE = AttributeKey.stringKey("university");
+
+    public void registerViewForUniversity(Integer universityId) {
+        LongCounter counter = meter.counterBuilder("university.views")
+            .setDescription("Views per university")
+            .setUnit("{view}")
+            .build();
+
+        counter.add(1L, Attributes.of(UNIVERSITY_ID_ATTRIBUTE, universityId.toString()));
     }
 
 }
