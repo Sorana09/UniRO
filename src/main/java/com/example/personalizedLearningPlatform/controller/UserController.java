@@ -32,6 +32,7 @@ public class UserController {
     private final UserService userService;
     private final OpenAIService openAIService;
 
+    //TODO: Implement caching
 
     @GetMapping("/{id}")
     public ResponseEntity<UserDto> getUserById(@PathVariable(name = "id") Integer id) {
@@ -60,6 +61,11 @@ public class UserController {
         else return ResponseEntity.noContent().build();
     }
 
+    @RateLimited(
+            maximumRequests = 5,
+            windowSize = 60,
+            key = IPExtractor.class
+    )
     @GetMapping("/{userId}/recommend-faculties")
     public ResponseEntity<String> recommendFaculties(@PathVariable Integer userId) throws IOException {
         UserEntity user = userService.findById(userId).get();

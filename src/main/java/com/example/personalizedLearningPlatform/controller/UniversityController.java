@@ -8,9 +8,14 @@ import com.example.personalizedLearningPlatform.service.GeocodingService;
 import com.example.personalizedLearningPlatform.service.OpenAIService;
 import com.example.personalizedLearningPlatform.service.UniversityCategoryService;
 import com.example.personalizedLearningPlatform.service.UniversityService;
+import io.github.d4rckh.limiterx.spring.annotation.RateLimited;
+import io.github.d4rckh.limiterx.spring.extractor.IPExtractor;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -95,7 +100,13 @@ public class UniversityController {
         return ResponseEntity.ok(universityDtos);
     }
 
+
     @GetMapping("/{id}/generate-description")
+    @RateLimited(
+            maximumRequests = 5,
+            windowSize = 60,
+            key = IPExtractor.class
+    )
     public ResponseEntity<String> generateDescription(@PathVariable Integer id) throws IOException {
         Optional<UniversityEntity> optionalUniversity = universityService.getUniversityById(id);
         if (optionalUniversity.isEmpty()) {
@@ -110,6 +121,12 @@ public class UniversityController {
     }
 
     @PutMapping("/{id}/regenerate-description")
+    @RateLimited(
+            maximumRequests = 5,
+            windowSize = 60,
+            key = IPExtractor.class
+    )
+    @CachePut(value = "university", key = "#id")
     public ResponseEntity<UniversityEntity> regenerateDescription(@PathVariable Integer id, @RequestBody String description) throws IOException {
         Optional<UniversityEntity> optionalUniversity = universityService.getUniversityById(id);
         if (optionalUniversity.isEmpty()) {
@@ -126,6 +143,7 @@ public class UniversityController {
 
 
     @GetMapping("/{id}")
+    @Cacheable(value = "university", key = "#id")
     public ResponseEntity<UniversityEntity> getUniversityById(@PathVariable Integer id) {
         Optional<UniversityEntity> university = universityService.getUniversityById(id);
         return university.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
@@ -157,9 +175,12 @@ public class UniversityController {
         return ResponseEntity.noContent().build();
     }
 
-
-    // this will kill my laptop
     @GetMapping("/set-description-for-all-universities")
+    @RateLimited(
+            maximumRequests = 5,
+            windowSize = 60,
+            key = IPExtractor.class
+    )
     public ResponseEntity<String> setDescriptionForAllUniversities() throws IOException {
         List<UniversityEntity> universities = universityService.getAllUniversities();
         for (UniversityEntity university : universities) {
@@ -170,4 +191,5 @@ public class UniversityController {
 
         return ResponseEntity.ok("Descriptions set for all universities!");
     }
+
 }

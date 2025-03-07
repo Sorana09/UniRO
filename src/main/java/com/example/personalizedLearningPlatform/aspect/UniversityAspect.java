@@ -18,10 +18,10 @@ public class UniversityAspect {
 
     @AfterReturning(
             value = "execution(* com.example.personalizedLearningPlatform.controller.UniversityController.getUniversityById(..))",
-            returning = "responseEntiy")
-    public void afterReturningGetUniversityById(ResponseEntity<UniversityEntity> responseEntiy){
-        if(responseEntiy.getStatusCode().is2xxSuccessful()) {
-            UniversityEntity university = responseEntiy.getBody();
+            returning = "responseEntity")
+    public void afterReturningGetUniversityById(ResponseEntity<UniversityEntity> responseEntity){
+        if(responseEntity.getStatusCode().is2xxSuccessful()) {
+            UniversityEntity university = responseEntity.getBody();
             if(university != null) {
                 Integer universityId = university.getId();
                 viewUniversityMetric.registerViewForUniversity(universityId);

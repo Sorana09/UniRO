@@ -10,6 +10,8 @@ import com.example.personalizedLearningPlatform.service.CategoryLanguageService;
 import com.example.personalizedLearningPlatform.service.CategoryService;
 import com.example.personalizedLearningPlatform.service.CategoryStudyProgramService;
 import com.example.personalizedLearningPlatform.service.OpenAIService;
+import io.github.d4rckh.limiterx.spring.annotation.RateLimited;
+import io.github.d4rckh.limiterx.spring.extractor.IPExtractor;
 import lombok.AllArgsConstructor;
 import org.etsi.uri.x01903.v13.ResponderIDType;
 import org.springframework.http.HttpStatus;
@@ -133,6 +135,11 @@ public class CategoryController {
     }
 
     @GetMapping("/{id}/coordinates")
+    @RateLimited(
+            maximumRequests = 5,
+            windowSize = 60,
+            key = IPExtractor.class
+    )
     public ResponseEntity<double[]> generateCoordinates(@PathVariable Integer id) throws IOException {
         CategoryEntity category =categoryService.getCategoryById(id).get();
         double[] coordinates = openAIService.generateInformationForCategoriesLatAndLong(category.getName());
@@ -141,6 +148,11 @@ public class CategoryController {
     }
 
     @GetMapping("/{id}/setEntranceMethod")
+    @RateLimited(
+            maximumRequests = 5,
+            windowSize = 60,
+            key = IPExtractor.class
+    )
     public ResponseEntity<CategoryEntity> setEntranceMethod(@PathVariable Integer id) throws IOException {
         if (!categoryService.getCategoryById(id).isPresent()) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
@@ -151,6 +163,11 @@ public class CategoryController {
     }
 
     @GetMapping("/set-description-for-all-categories")
+    @RateLimited(
+            maximumRequests = 5,
+            windowSize = 60,
+            key = IPExtractor.class
+    )
     public ResponseEntity<String> setDescriptionForAllCategories() throws IOException {
         List<CategoryEntity> categories = categoryService.getAllCategories();
         for (CategoryEntity category : categories) {
