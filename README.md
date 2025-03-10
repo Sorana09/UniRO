@@ -60,11 +60,7 @@
    ```sh
    npm install
    ```
-2. Set up environment variables in `.env`:
-   ```sh
-   BACKEND=http://localhost:8080
-   ```
-3. Start the development server:
+2. Start the development server:
    ```sh
    npm run dev
    ```
