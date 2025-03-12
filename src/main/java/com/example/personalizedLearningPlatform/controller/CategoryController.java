@@ -162,6 +162,17 @@ public class CategoryController {
         return ResponseEntity.ok(categoryService.getCategoryById(id).get());
     }
 
+    @GetMapping("/all-setEntranceMethod")
+    public ResponseEntity<String> allsetEntranceMethod() throws IOException {
+        List<CategoryEntity> categories = categoryService.getAllCategories();
+        for (CategoryEntity category : categories) {
+            String entranceMethod = openAIService.generateEntranceMethod(category.getName());
+            categoryService.updateEntranceMethod(category.getId(), entranceMethod);
+        }
+        return ResponseEntity.ok("Entrance methods for all categories have been set successfully!");
+
+    }
+
     @GetMapping("/set-description-for-all-categories")
     @RateLimited(
             maximumRequests = 5,
