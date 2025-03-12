@@ -1,6 +1,5 @@
 package com.example.personalizedLearningPlatform.metrics;
 
-
 import io.opentelemetry.api.OpenTelemetry;
 import io.opentelemetry.api.metrics.Meter;
 import org.springframework.context.annotation.Bean;
