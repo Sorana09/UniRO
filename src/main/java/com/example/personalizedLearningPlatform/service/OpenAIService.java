@@ -24,7 +24,7 @@ import java.util.regex.Pattern;
 @AllArgsConstructor
 public class OpenAIService {
 
-    private final String API_KEY = "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";
+    private final String API_KEY = "";
     private final OkHttpClient client = new OkHttpClient();
     private final UniversityService universityService;
 

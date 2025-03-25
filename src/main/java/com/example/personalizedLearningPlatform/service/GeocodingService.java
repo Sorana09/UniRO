@@ -18,7 +18,7 @@ import java.util.List;
 public class GeocodingService {
 
     private static final String GOOGLE_GEOCODE_URL = "https://maps.googleapis.com/maps/api/geocode/json?address=";
-    private static final String GOOGLE_API_KEY = "AIzaSyDQ53DewnQuW_kQeZhwGF4FWwoVjwcv20U";
+    private static final String GOOGLE_API_KEY = "";
     private final UniversityRepository universityRepository;
 
     public double[] getCoordinates(String name, String location) {
